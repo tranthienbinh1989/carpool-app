@@ -1,4 +1,4 @@
-package com.carpool.model;
+package com.mum.carpooling.model;
 
 import java.sql.*;
 
@@ -15,6 +15,7 @@ public class User{
 	private String password;
 	private Timestamp datecreated;
 	private Timestamp dateupdated;
+	
 	public long getUserid() {
 		return userid;
 	}

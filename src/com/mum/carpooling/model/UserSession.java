@@ -1,4 +1,4 @@
-package com.carpool.model;
+package com.mum.carpooling.model;
 
 public class UserSession {
 	private User user;
