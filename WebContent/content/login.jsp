@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="/carpool-app/assets/css/bootstrap-united.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/assets/css/bootstrap-united.css" rel="stylesheet" />
 
 <style>
 .error {
@@ -25,11 +25,11 @@
 <title>Carpooling Login</title>
 </head>
 <body>
-	<script src="/carpool-app/jquery-1.8.3.js">
+	<script src="${pageContext.request.contextPath}/jquery-1.8.3.js">
 		
 	</script>
 
-	<script src="/carpool-app/bootstrap/js/bootstrap.js">
+	<script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js">
 		
 	</script>
 
@@ -80,18 +80,17 @@
 				<div class="row">
 					<div class="col-lg-6">
 						<form id="myForm" method="post"
-							class="bs-example form-horizontal" action="../user">
+							class="bs-example form-horizontal" action="${pageContext.request.contextPath}/user">
 							<fieldset>
 								<legend>Login Form</legend>
 								
 								<input type="hidden" name="pageName" value="login">
 
 								<div class="form-group">
-									<label for="userNameInput" class="col-lg-3 control-label">User
-										Name</label>
+									<label for="emailInput" class="col-lg-3 control-label">Email</label>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" name="userName"
-											id="userNameInput" placeholder="User Name" />
+										<input type="text" class="form-control" name="email"
+											id="emailInput" placeholder="Email" />
 									</div>
 								</div>
 

@@ -7,7 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.mum.carpooling.model.User;
 import com.mum.carpooling.repository.UserRepository;
 
 /**
@@ -49,34 +51,29 @@ public class UserController extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+		HttpServletResponse response) throws ServletException, IOException {
 		String pageName = request.getParameter("pageName");
 		String forward = "";		
-		
+		User user = new User();
+		user.setEmail(request.getParameter("email"));
+		user.setPassword(request.getParameter("password"));
 		if (userRepository != null) {
 			if (pageName.equals("signup")) {
-				if (userRepository.findByUserName(request
-						.getParameter("userName"))) {
-					request.setAttribute("message", "User Name exists. Try another user name");
+				if (userRepository.findByEmail(user.getEmail())) { 
+					request.setAttribute("message", "Email is exists. Try another email");
 					forward = USER_SIGNUP;
-					RequestDispatcher view = request
-							.getRequestDispatcher(forward);
+					RequestDispatcher view = request.getRequestDispatcher(forward);
 					view.forward(request, response);
 					return;
 				}
 
-				userRepository.save(request.getParameter("userName"),
-						request.getParameter("password"),
-						request.getParameter("firstName"),
-						request.getParameter("lastName"),
-						request.getParameter("dateOfBirth"),
-						request.getParameter("emailAddress"));
+				userRepository.register(user);
 				forward = USER_LOGIN;
 			} else if (pageName.equals("login")) {
-				boolean result = userRepository.findByLogin(
-						request.getParameter("userName"),
-						request.getParameter("password"));
+				boolean result = userRepository.login(user);
 				if (result == true) {
+					 HttpSession session = request.getSession(true);	    
+			         session.setAttribute("currentUser",user); 
 					forward = LOGIN_SUCCESS;
 				} else {
 					forward = LOGIN_FAILURE;
