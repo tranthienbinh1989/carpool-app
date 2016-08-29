@@ -5,15 +5,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login Success</title>
-<link href="/StudentEnrollmentWithJDBC/assets/css/bootstrap-united.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/assets/css/bootstrap-united.css" rel="stylesheet" />
 
 </head>
 <body>
-	<script src="/StudentEnrollmentWithJDBC/jquery-1.8.3.js">
+	<script src="${pageContext.request.contextPath}/jquery-1.8.3.js">
 		
 	</script>
 
-	<script src="/StudentEnrollmentWithJDBC/bootstrap/js/bootstrap.js">
+	<script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js">
 		
 	</script>
 
@@ -32,7 +32,7 @@
 				<input type="text" class="form-control" placeholder="Search">
 			</form>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="/StudentEnrollmentWithJDBC">Home</a></li>
+				<li><a href="/carpool-app">Home</a></li>
 				<li><a href="content/signup.jsp">Signup</a></li>
 				<li class="active"><a href="content/login.jsp">Login</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -46,13 +46,10 @@
 		</div>
 		<!-- /.nav-collapse -->
 	</div>
-
-	<!-- 
-	<legend>Student Enrollment Login Success</legend>
-	 -->
+	
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			<h3 class="panel-title">Student Enrollment Login success</h3>
+			<h3 class="panel-title">Carpool app Login success</h3>
 		</div>
 		<div class="panel-body">
 		<div class="alert alert-dismissable alert-success">
