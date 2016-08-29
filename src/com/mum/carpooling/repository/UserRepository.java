@@ -18,7 +18,7 @@ public class UserRepository {
 	  
 	  public void save(String userName, String password, String firstName, String lastName, String dateOfBirth, String emailAddress) {
 	      try {
-	          PreparedStatement prepStatement = dbConnection.prepareStatement("insert into student(userName, password, firstName, lastName, dateOfBirth, emailAddress) values (?, ?, ?, ?, ?, ?)");
+	          PreparedStatement prepStatement = dbConnection.prepareStatement("insert into user(userName, password, firstName, lastName, dateOfBirth, emailAddress) values (?, ?, ?, ?, ?, ?)");
 	          prepStatement.setString(1, userName);
 	          prepStatement.setString(2, password);
 	          prepStatement.setString(3, firstName);
