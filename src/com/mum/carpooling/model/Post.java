@@ -5,6 +5,12 @@ public class Post {
 	long userid;
 	String post;
 	int posttype;
+	public Post(long userid, String post, int posttype) {
+		super();
+		this.userid = userid;
+		this.post = post;
+		this.posttype = posttype;
+	}
 	public long getPostid() {
 		return postid;
 	}
