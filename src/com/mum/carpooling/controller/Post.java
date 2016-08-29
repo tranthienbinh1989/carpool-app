@@ -78,6 +78,7 @@ public class Post extends HttpServlet {
 						Comment.put("PostId",rs.getString("postid"));
 						Comment.put("PostType",rs.getString("posttype"));
 						Comment.put("Post",rs.getString("post"));
+						Comment.put("UserId",rs.getString("userid"));
 						Comments.add(Comment);
 					}
 					
