@@ -1,0 +1,10 @@
+<taglib>
+ 	<tlib-version>1.0</tlib-version>
+ 	<short-name>My Custom Tag</short-name>
+	<jsp-version>2.0</jsp-version>
+ 	<tag>
+ 		<name>PostTag</name>
+ 		<tag-class>com.mum.carpooling.view.PostTag</tag-class>
+ 		<body-content>empty</body-content>
+ 	</tag>
+</taglib>

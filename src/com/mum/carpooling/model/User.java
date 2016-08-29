@@ -5,7 +5,7 @@ import java.sql.*;
 public class User {
 	private long userid;
 	private String fullname;
-	private boolean gender;
+	private int gender;
 	private String state;
 	private String city;
 	private String street;
@@ -32,11 +32,11 @@ public class User {
 		this.fullname = fullname;
 	}
 
-	public boolean isGender() {
+	public int getGender() {
 		return gender;
 	}
 
-	public void setGender(boolean gender) {
+	public void setGender(int gender) {
 		this.gender = gender;
 	}
 
