@@ -4,13 +4,20 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  <filter>
+    <filter-name>AuthenticationFilter</filter-name>
+    <filter-class>com.mum.carpooling.filters.AuthenticationFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
   <servlet>
-  	<servlet-name>userLogin</servlet-name>
-  	<servlet-class>com.mum.carpooling.controller.UserController</servlet-class>
+    <servlet-name>userLogin</servlet-name>
+    <servlet-class>com.mum.carpooling.controller.UserController</servlet-class>
   </servlet>
-  
   <servlet-mapping>
-  	<servlet-name>userLogin</servlet-name>
-  	<url-pattern>/user</url-pattern>
+    <servlet-name>userLogin</servlet-name>
+    <url-pattern>/user</url-pattern>
   </servlet-mapping>
 </web-app>

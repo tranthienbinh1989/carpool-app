@@ -22,10 +22,10 @@ import com.mum.carpooling.repository.UserRepository;
 public class UserController extends HttpServlet {
 	private UserRepository userRepository;
 
-	private static String USER_SIGNUP = "content/signup.jsp";
-	private static String USER_LOGIN = "content/login.jsp";
-	private static String LOGIN_SUCCESS = "content/success.jsp";
-	private static String LOGIN_FAILURE = "content/failure.jsp";
+	private static String USER_SIGNUP = "WEB-INF/view/signup.jsp";
+	private static String USER_LOGIN = "WEB-INF/view/login.jsp";
+	private static String LOGIN_SUCCESS = "WEB-INF/view/success.jsp";
+	private static String LOGIN_FAILURE = "WEB-INF/view/failure.jsp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -40,8 +40,24 @@ public class UserController extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request,
-		HttpServletResponse response) throws ServletException, IOException {	
-		String forward = USER_SIGNUP;
+		HttpServletResponse response) throws ServletException, IOException {
+		String forward = "";
+	
+		HttpSession session = request.getSession(true);
+		User currentUser = (User) session.getAttribute("currentUser");
+		if(currentUser != null) {
+			forward = LOGIN_SUCCESS;
+		} else {
+			String action = request.getParameter("action");
+			if(action != null && !action.isEmpty()) {
+				if(action == "signup") {
+					forward = USER_SIGNUP; 
+				} else {
+					forward = USER_LOGIN;
+				}
+			}
+		}
+		
 		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}
@@ -70,13 +86,19 @@ public class UserController extends HttpServlet {
 				userRepository.register(user);
 				forward = USER_LOGIN;
 			} else if (pageName.equals("login")) {
-				boolean result = userRepository.login(user);
-				if (result == true) {
-					 HttpSession session = request.getSession(true);	    
-			         session.setAttribute("currentUser",user); 
+				HttpSession session = request.getSession(true);
+				User currentUser = (User) session.getAttribute("currentUser");
+				if(currentUser != null) {
 					forward = LOGIN_SUCCESS;
 				} else {
-					forward = LOGIN_FAILURE;
+					boolean result = userRepository.login(user);
+					if (result == true) {
+				         session.setAttribute("currentUser",user); 
+						forward = LOGIN_SUCCESS;
+					} else {
+						request.setAttribute("validClass", "invalid");
+						forward = USER_LOGIN;
+					}
 				}
 			}
 		}
