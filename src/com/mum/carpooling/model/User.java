@@ -32,7 +32,7 @@ public class User {
 		this.fullname = fullname;
 	}
 
-	public int isGender() {
+	public int getGender() {
 		return gender;
 	}
 

@@ -38,11 +38,16 @@ public class UserRepository {
 	  
 	  public void register(User user) {
 	      try {
-	          PreparedStatement prepStatement = dbConnection.prepareStatement("insert into users(email, password, fullname) values (?, ?, ?)");
-	          prepStatement.setString(1, user.getEmail());
-	          prepStatement.setString(2, user.getPassword());
-	          prepStatement.setString(3, user.getFullname());
-	          
+	          PreparedStatement prepStatement = dbConnection.prepareStatement("insert into users(fullname,gender,state,city,street,zipcode,birthyear,email, password ) values (?,?,?,?,?,?,?,?,?)");
+	          prepStatement.setString(1, user.getFullname());
+	          prepStatement.setInt(2, user.getGender());
+	          prepStatement.setString(3, user.getState());
+	          prepStatement.setString(4, user.getCity());
+	          prepStatement.setString(5, user.getStreet());
+	          prepStatement.setInt(6, user.getZipcode());
+	          prepStatement.setInt(7, user.getBirthyear());
+	          prepStatement.setString(8, user.getEmail());
+	          prepStatement.setString(9, user.getPassword());
 	          prepStatement.executeUpdate();
 	      } catch (SQLException e) {
 	          e.printStackTrace();
