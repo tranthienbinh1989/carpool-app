@@ -64,7 +64,7 @@
 					    <label>Gender</label>
                       </div>       
                       <div class="input-field col s6">
-                       <input id="birthYear" name="birthYear" type="number" min="1900" max="2016" class="validate ${ errorYear }" required>
+                       <input id="birthYear" name="birthYear" type="number" min="1900" max="2016" class="validate ${ errorYear }" pattern="(\d{4)" required>
                         <label for="birthYear" data-error="${ yearMessage }" data-success="">Year of Birth</label>
                       </div>                
                     </div>
