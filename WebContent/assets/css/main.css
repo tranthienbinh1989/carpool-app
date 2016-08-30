@@ -26,3 +26,80 @@ body {
   border-bottom: 2px solid #e91e63;
   box-shadow: none;
 }
+
+
+/* post styles */
+
+.error{
+	color:red;
+	font-size: 10px;
+}
+.title{
+	font-weight: bold;
+}
+.likes{
+	font-size:10px;
+	height:10px;
+	width:15px;
+	text-align:right;
+	display:inline-block;
+    background-size:10px 10px;
+}
+.comments{
+	font-size:12px;
+	height:10px;
+	width:15px;
+	text-align:right;
+	display:inline-block;
+    background-size:10px 10px;
+}
+.commentContainer{
+	margin-rigt: 20px;
+	font-size:10px;
+}
+.commentSingle{
+	padding: 10px;
+	margin: 5px;
+	border: solid 1px #DDDDDD;
+}
+.post_text{
+	padding:5px 0;
+	font-size: 12px;
+}
+.driver{
+	height:50px;
+	width:50px;
+	display:inline-block;
+	top:10px;
+	left:10px;
+	position:absolute;
+    background-image: url("/carpool-app/assets/img/driver.png");
+    background-repeat:no-repeat;
+    background-scale:50%;
+    background-size:50px 50px;
+    background-color:#DFDFF7;
+    border-radius:25px;
+}
+.rider{
+	height:50px;
+	width:50px;
+	display:inline-block;
+	top:10px;
+	left:10px;
+	position:absolute;
+	float:left;
+    background-image: url("/carpool-app/assets/img/rider.png");
+    background-repeat:no-repeat;
+    background-scale:50%;
+    background-size:50px 50px;
+    background-color:#DFDFF7;
+    border-radius:25px;
+}
+
+.marginer{
+	border: 0;
+}
+
+.icon-black {
+    color: #777777;
+}

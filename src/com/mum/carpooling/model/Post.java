@@ -1,10 +1,36 @@
 package com.mum.carpooling.model;
 
 public class Post {
-	long postid;
-	long userid;
-	String post;
+	long postid,likes;
+	long userid,Comments;
+	public long getComments() {
+		return Comments;
+	}
+	public void setComments(long comments) {
+		Comments = comments;
+	}
+	String post,fullname;
+	int isLiked;
+	public int getIsLiked() {
+		return isLiked;
+	}
+	public void setIsLiked(int isLiked) {
+		this.isLiked = isLiked;
+	}
+	public long getLikes() {
+		return likes;
+	}
+	public void setLikes(long likes) {
+		this.likes = likes;
+	}
+	public String getFullname() {
+		return fullname;
+	}
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
 	int posttype;
+	
 	public Post(long userid, String post, int posttype) {
 		super();
 		this.userid = userid;

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="Post" uri="/WEB-INF/PostTag.tld" %>
 <!doctype html>
 
 <html lang="en">
@@ -11,7 +12,7 @@
   <meta name="author" content="MUM">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="/carpool-app/assets/css/main.css">
   <style>
     body {
       display: flex;
@@ -85,46 +86,10 @@
             </div>
 
             <div id="post-list" class="col s12 m8 l9">
-
-             <ul class="collection">
-                <li class="collection-item avatar email-unread selected">
-                  <i class="material-icons circle green">android</i>
-                  <span class="title">Title</span>
-                  <p>First Line <br>
-                     Second Line
-                  </p>
-                  <div class="secondary-content">
-                    <a href="#!"><i class="material-icons">thumb_up</i></a>
-                    <a href="#!"><i class="material-icons">chat_bubble</i></a>
-                  </div>
-                </li>
-                <li class="collection-item avatar email-unread hoverable">
-                  <i class="material-icons circle green">android</i>
-                  <span class="title">Title</span>
-                  <p>First Line <br>
-                     Second Line
-                  </p>
-                  <a href="#!" class="secondary-content"><i class="material-icons">thumb_up</i></a>
-                </li>
-                <li class="collection-item avatar">
-                  <i class="material-icons circle green">android</i>
-                  <span class="title">Title</span>
-                  <p>First Line <br>
-                     Second Line
-                  </p>
-                  <a href="#!" class="secondary-content"><i class="material-icons">thumb_up</i></a>
-                </li>
-                <li class="collection-item avatar">
-                  <i class="material-icons circle red">android</i>
-                  <span class="title">Title</span>
-                  <p>First Line <br>
-                     Second Line
-                  </p>
-                  <a href="#!" class="secondary-content"><i class="material-icons">thumb_up</i></a>
-                </li>
+             <ul class="collection" id="posts">
+             	<Post:PostTag/>
               </ul>
             </div>
-
         </div>
          <!-- Compose Email Trigger -->
             <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
@@ -133,69 +98,37 @@
               </a>
             </div>
 
-
-
             <!-- Compose Email Structure -->
             <div id="modal1" class="modal">
-              <div class="modal-content">
-                <nav class="red">
-                  <div class="nav-wrapper">
-                    <div class="left col s12 m5 l5">
-                      <ul>
-                        <li><a href="#!" class="email-menu"><i class="modal-action modal-close  mdi-hardware-keyboard-backspace"></i></a>
-                        </li>
-                        <li><a href="#!" class="email-type">Compose</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="col s12 m7 l7 hide-on-med-and-down">
-                      <ul class="right">
-                        <li><a href="#!"><i class="mdi-editor-attach-file"></i></a>
-                        </li>
-                        <li><a href="#!"><i class="modal-action modal-close  mdi-content-send"></i></a>
-                        </li>
-                        <li><a href="#!"><i class="mdi-navigation-more-vert"></i></a>
-                        </li>
-                      </ul>
-                    </div>
-
-                  </div>
-                </nav>
-              </div>
               <div class="model-email-content">
-                <div class="row">
-                  <form class="col s12">
-                    <!--<div class="row">
-                      <div class="input-field col s12">
-                        <input id="from_email" type="email" class="validate">
-                        <label for="from_email">From</label>
-                      </div>
-                    </div> -->
+                <div class="row">                 
+                  	<div class="row">
+                  	<div class="col s12">
+                      <ul>
+                        <li><input name="group1" type="radio" id="Rider" /><label for="Rider">I need a ride</label></li>
+                        <li><input name="group1" type="radio" id="Driver" /><label for="Driver">I need a People</label></li>
+                      </ul>
+                      <div id="error_SelectRole" class="error"></div>
+                  	</div>       
+                  	</div>
                     <div class="row">
                       <div class="input-field col s12">
-                        <input id="to_email" type="email" class="validate">
-                        <label for="to_email">To</label>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="input-field col s12">
-                        <input id="subject" type="text" class="validate">
-                        <label for="subject">Subject</label>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="input-field col s12">
+
                         <textarea id="compose" class="materialize-textarea" length="500"></textarea>
-                        <label for="compose">Compose email</label>
+                        <label for="compose">Your post</label>
+                        <div id="error_PostText" class="error"></div>
+                        <button class="btn waves-effect waves-light" name="action" id="Submit_Post">Post
+    					<i class="material-icons right">send</i>
+  						</button>  						
                       </div>
-                    </div>
-                  </form>
+                    </div>          
                 </div>
               </div>
             </div>
   </div>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  <script type="text/javascript" src="/carpool-app/assets/js/post.js"></script>
   <script>
     (function($){
       $(function(){
@@ -204,6 +137,7 @@
         $('.modal-trigger').leanModal();
       }); // end of document ready
     })(jQuery); // end of jQuery name space
+    
   </script>
 </body>
 

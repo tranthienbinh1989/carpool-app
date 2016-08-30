@@ -16,6 +16,27 @@ import com.mum.carpooling.ultil.DBConnection;
 import java.util.*;
 
 public class PostRepository {
+	public static boolean Like(long userid,long postid){
+		try {
+			PreparedStatement  statementSel = DBConnection.getConnection().prepareStatement("SELECT likes.postid FROM likes WHERE userid=? AND postid=?");
+			statementSel.setLong(1, userid);
+			statementSel.setLong(2,  postid);
+			ResultSet rs = statementSel.executeQuery();
+			
+			if(!rs.next()){			
+				PreparedStatement  statementIn = DBConnection.getConnection().prepareStatement("INSERT INTO likes(userid,postid) VALUES (?,?)");
+				statementIn.setLong(1, userid);
+				statementIn.setLong(2,  postid);
+				System.out.println(statementIn);
+				statementIn.executeUpdate();
+			}
+			return true;
+        
+	} catch (SQLException e) {
+		System.out.println(e.getMessage());
+	}
+		return true;
+	}
 	public static boolean SavePost(Post post){
 		try {
 			PreparedStatement  statement = DBConnection.getConnection().prepareStatement("INSERT INTO posts(userid,post,posttype) VALUES (?,?,?)");
@@ -41,16 +62,21 @@ public class PostRepository {
 		}
 		return true;
 	}
-	public static ArrayList<Post> GetPosts(int From, int To){
+	public static ArrayList<Post> GetPosts(long UserId,int From, int To){
 		ArrayList<Post> Posts = new ArrayList<Post>();
 		try {
-			PreparedStatement  statement = DBConnection.getConnection().prepareStatement("select * from posts limit ?,?");
-			statement.setInt(1, From);
-			statement.setInt(2,  To);
+			PreparedStatement  statement = DBConnection.getConnection().prepareStatement("SELECT posts.postid,posts.post,posts.posttype,posts.userid,likeCount.likes,users.fullname,userLiked.liked,commentCount.comments FROM posts LEFT OUTER JOIN((select postid,count(*) AS likes FROM likes group by postid) AS likeCount) ON likeCount.postid=posts.postid LEFT OUTER JOIN users ON posts.userid = users.userid LEFT OUTER JOIN (SELECT count(*) as liked,userid,postid  FROM likes group by userid,postid having likes.userid=?) as userLiked  on userLiked.postid=posts.postid LEFT OUTER JOIN((select postid,count(*) AS comments FROM comments group by postid) AS commentCount) ON commentCount.postid=posts.postid ORDER BY postid DESC LIMIT ?,?");
+			statement.setLong(1, UserId);
+			statement.setInt(2, From);
+			statement.setInt(3,  To);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				Post post = new Post(rs.getInt("userid"),rs.getString("post"),rs.getInt("posttype"));
 				post.setPostid(rs.getInt("postid"));
+				post.setFullname(rs.getString("fullname"));				
+				post.setLikes(rs.getInt("likes"));
+				post.setIsLiked(rs.getInt("liked"));
+				post.setComments(rs.getInt("Comments"));
 				Posts.add(post);
 			}
 		} catch (SQLException e) {

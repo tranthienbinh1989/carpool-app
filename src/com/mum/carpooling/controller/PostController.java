@@ -41,8 +41,8 @@ public class PostController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		User CurrentUser = getUser();//(User)session.getAttribute("CurrentUser");
-		
+		//User CurrentUser = getUser();
+		User CurrentUser = (User)session.getAttribute("CurrentUser");
 	String Action = request.getParameter("Action");
 	if(Action!=null && !Action.isEmpty()){
 		if(Action.equals("Save")){
@@ -56,28 +56,35 @@ public class PostController extends HttpServlet {
 			if(PostId!=null && !PostId.isEmpty())
 				PostRepository.DeletePost(CurrentUser.getUserid(),Long.parseLong(PostId));
 		}
+		else if(Action.equals("Like")){			
+			String PostId = request.getParameter("PostId");
+			if(PostId!=null && !PostId.isEmpty())
+				PostRepository.Like(CurrentUser.getUserid(),Long.parseLong(PostId));
+		}
 		else if(Action.equals("Get")){
 			String From = request.getParameter("From");
 			String To = request.getParameter("To");
 			if(From!=null && !From.isEmpty() && To!=null && !To.isEmpty()){
-				ArrayList<Post> Posts = PostRepository.GetPosts(Integer.parseInt(From), Integer.parseInt(To));
+				ArrayList<Post> Posts = PostRepository.GetPosts(CurrentUser.getBirthyear(),Integer.parseInt(From), Integer.parseInt(To));
 				JSONArray Comments = new JSONArray();
 				for(Post post: Posts) {
-					JSONObject Comment = new JSONObject();;
+					JSONObject Comment = new JSONObject();
 					Comment.put("PostId",post.getPostid());
 					Comment.put("PostType",post.getPosttype());
 					Comment.put("Post",post.getPost());
 					Comment.put("UserId",post.getUserid());
+					Comment.put("Fullname",post.getFullname());
+					Comment.put("Likes",post.getLikes());
+					Comment.put("Liked",post.getIsLiked());
+					Comment.put("Comments",post.getComments());
 					Comments.add(Comment);
-				}
-				
+				}			
 				response.setContentType("application/json");
 				response.getWriter().write(Comments.toJSONString());
 			}
 		}			
 		else
-			System.out.println("wrong opertion");
-		
+			System.out.println("wrong opertion");	
 	}
 	}
 
@@ -88,9 +95,9 @@ public class PostController extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	static User getUser(){
+	public static User getUser(){
 		User u = new User();
-		u.setUserid(1000);
+		u.setUserid(1);
 		u.setFullname("Issac");
 		u.setGender(1);
 		return u;
