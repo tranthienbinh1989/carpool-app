@@ -14,6 +14,38 @@
 </head>
 
 <body>
+	<!-- start nav -->
+  <nav class="light-blue lighten-1">
+    <div class="nav-wrapper">
+      <a href="${pageContext.request.contextPath}" class="brand-logo">Carpooling</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+      	<c:choose>
+      		<c:when test="${empty sessionScope.currentUser }">
+      			<li><a href="login">Login</a></li>
+      		</c:when>
+      		<c:otherwise>
+      			<li><a href="logout">Logout</a></li>
+        		<li><a href="weathermap">Weather Map</a></li>
+        		<li><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"></a></li>
+      		</c:otherwise>
+      	</c:choose>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <c:choose>
+      		<c:when test="${empty sessionScope.currentUser }">
+      			<li><a href="login">Login</a></li>
+      		</c:when>
+      		<c:otherwise>
+      			<li><a href="logout">Logout</a></li>
+        		<li><a href="weathermap">Weather Map</a></li>
+        		<li><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"></a></li>
+      		</c:otherwise>
+      	</c:choose>
+      </ul>
+    </div>
+  </nav>
+  <!-- end nav -->
 	<div class="section"></div>
 	<main>
 	<center>

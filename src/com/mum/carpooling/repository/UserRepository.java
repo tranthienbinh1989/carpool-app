@@ -60,7 +60,7 @@ public class UserRepository {
 	          PreparedStatement prepStatement = dbConnection.prepareStatement("update users set "
 	          		+ "firstname = ?, lastname = ?, gender = ?, street = ?, city = ?, "
 	          		+ "state = ?, zipcode = ?, birthyear = ?, email = ?"
-	          		+ "where email = ?");
+	          		+ "where userid = ?");
 	          prepStatement.setString(1, user.getFirstname());
 	          prepStatement.setString(2, user.getLastname());
 	          prepStatement.setInt(3, user.getGender());
@@ -70,7 +70,7 @@ public class UserRepository {
 	          prepStatement.setInt(7, user.getZipcode());
 	          prepStatement.setInt(8, user.getBirthyear());
 	          prepStatement.setString(9, user.getEmail());
-	          prepStatement.setString(10, user.getEmail());
+	          prepStatement.setLong(10, user.getUserid());
 	          prepStatement.executeUpdate();
 	      } catch (SQLException e) {
 	          e.printStackTrace();
@@ -99,23 +99,12 @@ public class UserRepository {
 	  public User findUserByEmail(String email) {
 		  try {
 	          PreparedStatement prepStatement = dbConnection.prepareStatement("select * from users where email = ?");
-	          prepStatement.setString(1, email);   
+	          prepStatement.setString(1, email);
 	           
 	          ResultSet result = prepStatement.executeQuery();
 	          if (result != null) {   
 	              while (result.next()) {
-	            	  User u = new User();
-	            	  u.setUserid(result.getLong("userid"));
-	            	  u.setFirstname(result.getString("firstname"));
-	            	  u.setLastname(result.getString("lastname"));
-	            	  u.setEmail(result.getString("email"));
-	            	  u.setBirthyear(result.getInt("birthyear"));
-	            	  u.setGender(result.getInt("gender"));
-	            	  u.setStreet(result.getString("street"));
-	            	  u.setCity(result.getString("city"));
-	            	  u.setState(result.getString("state"));
-	            	  u.setZipcode(result.getInt("zipcode"));
-	            	  return u;
+	            	  return this.getUser(result);
 	              }
 	          }
 	          
@@ -123,5 +112,38 @@ public class UserRepository {
 	          e.printStackTrace();
 	      }
 	      return null;
+	  }
+	  
+	  public User findUserById(long id) {
+		  try {
+	          PreparedStatement prepStatement = dbConnection.prepareStatement("select * from users where userid = ?");
+	          prepStatement.setLong(1, id);
+	           
+	          ResultSet result = prepStatement.executeQuery();
+	          if (result != null) {   
+	              while (result.next()) {
+	            	  return this.getUser(result);
+	              }
+	          }
+	          
+	      } catch (Exception e) {
+	          e.printStackTrace();
+	      }
+	      return null;
+	  }
+	  
+	  protected User getUser(ResultSet rs) throws SQLException {
+		  User u = new User();
+    	  u.setUserid(rs.getLong("userid"));
+    	  u.setFirstname(rs.getString("firstname"));
+    	  u.setLastname(rs.getString("lastname"));
+    	  u.setEmail(rs.getString("email"));
+    	  u.setBirthyear(rs.getInt("birthyear"));
+    	  u.setGender(rs.getInt("gender"));
+    	  u.setStreet(rs.getString("street"));
+    	  u.setCity(rs.getString("city"));
+    	  u.setState(rs.getString("state"));
+    	  u.setZipcode(rs.getInt("zipcode"));
+    	  return u;
 	  }
 }

@@ -48,7 +48,7 @@
   <!-- start nav -->
   <nav class="light-blue lighten-1">
     <div class="nav-wrapper">
-      <a href="" class="brand-logo">Carpooling</a>
+      <a href="${pageContext.request.contextPath}" class="brand-logo">Carpooling</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
       	<c:choose>
@@ -193,18 +193,59 @@
                 </div>
               </div>
             </div>
+            <input type="button" id="notify" value="Notify" />
   </div>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
   <script>
     (function($){
       $(function(){
-
         $('.button-collapse').sideNav();
         $('.modal-trigger').leanModal();
+        
+     // Determine the correct object to use
+        var notification = window.Notification || window.mozNotification || window.webkitNotification;
+
+        // The user needs to allow this
+        if ('undefined' === typeof notification) {
+        	alert('Web notification not supported');
+        } else {
+        	notification.requestPermission(function(permission){});
+        }
+        $("#notify").click(notifyMe);
+        function notifyMe() {
+          if (!("Notification" in window)) {
+            alert("This browser does not support desktop notification");
+          }
+          else if (Notification.permission === "granted") {
+                var options = {
+                        body: "This is the body of the notification",
+                        icon: "icon.jpg",
+                        dir : "ltr"
+                     };
+                  var notification = new Notification("Hi there",options);
+          }
+          else if (Notification.permission !== 'denied') {
+            Notification.requestPermission(function (permission) {
+              if (!('permission' in Notification)) {
+                Notification.permission = permission;
+              }
+            
+              if (permission === "granted") {
+                var options = {
+                      body: "This is the body of the notification",
+                      icon: "icon.jpg",
+                      dir : "ltr"
+                  };
+                var notification = new Notification("Hi there",options);
+              }
+            });
+          }
+        };
+        
       }); // end of document ready
     })(jQuery); // end of jQuery name space
-  </script>
+  </script> 
 </body>
 
 </html>

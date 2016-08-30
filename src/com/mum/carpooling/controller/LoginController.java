@@ -25,7 +25,7 @@ public class LoginController extends HttpServlet {
 
 	private static String USER_SIGNUP = "WEB-INF/view/signup.jsp";
 	private static String USER_LOGIN = "WEB-INF/view/login.jsp";
-	private static String LOGIN_SUCCESS = "";
+	private static String LOGIN_SUCCESS = "/index.jsp";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -72,7 +72,6 @@ public class LoginController extends HttpServlet {
 			request.setAttribute("validClass", "invalid");
 			forward = USER_LOGIN;
 		}
-		
 		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}

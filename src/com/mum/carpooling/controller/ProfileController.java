@@ -43,7 +43,7 @@ public class ProfileController extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		User currentUser = (User) session.getAttribute("currentUser");
 		if(currentUser != null) {
-			currentUser = userRepository.findUserByEmail(currentUser.getEmail());
+			currentUser = userRepository.findUserById(currentUser.getUserid());
 	        session.setAttribute("currentUser",currentUser); 
 			forward = USER_PROFILE;
 		} else {
@@ -59,7 +59,7 @@ public class ProfileController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String forward = "";		
-		User user = new User();
+		User user = (User) request.getSession().getAttribute("currentUser");
 		user.setEmail(request.getParameter("email"));
 		user.setPassword(request.getParameter("password"));
 		int birthYear = 0;
@@ -98,13 +98,19 @@ public class ProfileController extends HttpServlet {
 
 		if (userRepository != null) {
 			if (userRepository.findByEmail(user.getEmail())) { 
-				userRepository.update(user);
-				HttpSession session = request.getSession(true);
-				User currentUser = userRepository.findUserByEmail(user.getEmail());
-		        session.setAttribute("currentUser",currentUser);
-				forward = USER_PROFILE;
+				request.setAttribute("errorEmail", "invalid");
+			} else {
+				User oldUser =  userRepository.findUserById(user.getUserid());
+				if (oldUser != null) {
+					userRepository.update(user);
+					HttpSession session = request.getSession(true);
+					User currentUser = userRepository.findUserById(user.getUserid());
+			        session.setAttribute("currentUser",currentUser);
+				}
 			}
+			forward = USER_PROFILE;
 		}
+
 		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}
