@@ -64,8 +64,10 @@ public class LoginController extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		boolean result = userRepository.login(user);
 		if (result == true) {
-	         session.setAttribute("currentUser",user); 
-			forward = LOGIN_SUCCESS;
+			User currentUser = userRepository.findUserByEmail(user.getEmail());
+	        session.setAttribute("currentUser",currentUser); 
+	        response.sendRedirect(request.getContextPath());
+			return;
 		} else {
 			request.setAttribute("validClass", "invalid");
 			forward = USER_LOGIN;

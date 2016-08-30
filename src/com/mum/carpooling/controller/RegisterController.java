@@ -16,6 +16,8 @@ import org.apache.commons.lang3.math.NumberUtils;
 import com.mum.carpooling.model.User;
 import com.mum.carpooling.repository.UserRepository;
 
+import sun.misc.FpUtils;
+
 /**
  * Servlet implementation class RegisterController
  */
@@ -26,7 +28,7 @@ public class RegisterController extends HttpServlet {
 
 	private static String USER_SIGNUP = "WEB-INF/view/signup.jsp";
 	private static String USER_LOGIN = "WEB-INF/view/login.jsp";
-	private static String LOGIN_SUCCESS = "WEB-INF/view/success.jsp";
+	private static String LOGIN_SUCCESS = "";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,7 +47,8 @@ public class RegisterController extends HttpServlet {
 			HttpSession session = request.getSession(true);
 			User currentUser = (User) session.getAttribute("currentUser");
 			if(currentUser != null) {
-				forward = LOGIN_SUCCESS;
+				response.sendRedirect(request.getContextPath());
+				return;
 			} else {
 				forward = USER_SIGNUP;
 			}
@@ -62,7 +65,12 @@ public class RegisterController extends HttpServlet {
 		User user = new User();
 		user.setEmail(request.getParameter("email"));
 		user.setPassword(request.getParameter("password"));
-		int birthYear = request.getParameter("birthYear") == null ? null : Integer.parseInt(request.getParameter("birthYear"));
+		int birthYear = 0;
+		if(request.getParameter("birthYear") != null) {
+			if(NumberUtils.isNumber(request.getParameter("birthYear"))) {
+				birthYear = Integer.parseInt(request.getParameter("birthYear"));
+			}
+		}
 		if(checkAge(birthYear)) {
 			user.setBirthyear(birthYear);
 		} else {
@@ -78,11 +86,16 @@ public class RegisterController extends HttpServlet {
 				user.setGender(Integer.parseInt(request.getParameter("gender")));
 			}
 		}
-
+		user.setFirstname(request.getParameter("firstname"));
+		user.setLastname(request.getParameter("lastname"));
 		user.setStreet(request.getParameter("street"));
 		user.setCity(request.getParameter("city"));
 		user.setState(request.getParameter("state"));
-		user.setState(request.getParameter("zipcode"));
+		if(request.getParameter("zipcode") != null) {
+			if(NumberUtils.isNumber(request.getParameter("zipcode"))) {
+				user.setZipcode(Integer.parseInt(request.getParameter("zipcode")));
+			}
+		}
 
 		if (userRepository != null) {
 			if (userRepository.findByEmail(user.getEmail())) { 
@@ -91,7 +104,11 @@ public class RegisterController extends HttpServlet {
 				forward = USER_SIGNUP;
 			} else {
 				userRepository.register(user);
-				forward = USER_LOGIN;
+				User currentUser = userRepository.findUserByEmail(user.getEmail());
+				HttpSession session = request.getSession();
+		        session.setAttribute("currentUser",currentUser); 
+		        response.sendRedirect(request.getContextPath());
+				return;
 			}
 		}
 		RequestDispatcher view = request.getRequestDispatcher(forward);

@@ -4,7 +4,8 @@ import java.sql.*;
 
 public class User {
 	private long userid;
-	private String fullname;
+	private String firstname;
+	private String lastname;
 	private int gender;
 	private String state;
 	private String city;
@@ -19,17 +20,25 @@ public class User {
 	public long getUserid() {
 		return userid;
 	}
-
+	
 	public void setUserid(long userid) {
 		this.userid = userid;
 	}
 
-	public String getFullname() {
-		return fullname;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public int getGender() {
