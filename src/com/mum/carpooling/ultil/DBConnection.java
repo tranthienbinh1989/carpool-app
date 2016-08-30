@@ -18,13 +18,14 @@ public class DBConnection {
 				if (properties != null) {
 					properties.load(inputStream);
 
-					String dbDriver = properties.getProperty("com.mysql.jdbc.Driver");
-					String connectionUrl = properties.getProperty("jdbc:mysql://localhost/carpoolingdb");
-					String userName = properties.getProperty("root");
-					String password = properties.getProperty("root");
 
-					Class.forName("com.mysql.jdbc.Driver").newInstance();
-					dbConnection = DriverManager.getConnection("jdbc:mysql://localhost/carpoolingdb", "root", "root");
+					 String dbDriver = properties.getProperty("dbDriver");
+					 String connectionUrl = properties.getProperty("connectionUrl");
+					 String userName = properties.getProperty("userName");
+					 String password = properties.getProperty("password");
+					 
+					 Class.forName(dbDriver).newInstance();
+					 dbConnection = DriverManager.getConnection(connectionUrl, userName, password);
 				}
 			} catch (Exception e) {
 				System.err.println(e.getMessage());

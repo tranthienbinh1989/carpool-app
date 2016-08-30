@@ -97,8 +97,9 @@ public class PostController extends HttpServlet {
 	}
 	public static User getUser(){
 		User u = new User();
-		u.setUserid(1);
-		u.setFullname("Issac");
+		u.setUserid(1000);
+		u.setFirstname("Issac");
+		u.setLastname("Issac Last");
 		u.setGender(1);
 		return u;
 	}

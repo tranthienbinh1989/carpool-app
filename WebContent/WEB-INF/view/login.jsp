@@ -28,11 +28,9 @@
 				style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
 
 				<form class="col s12" method="post" action="${pageContext.request.contextPath}/login">
-					<input type="hidden" name="pageName" value="login" />
 					<div class='row'>
 						<div class='col s12'></div>
 					</div>
-
 					<div class='row'>
 						<div class='input-field col s12'>
 							<i class="mdi-social-person-outline prefix"></i>
@@ -62,7 +60,7 @@
 				</form>
 			</div>
 		</div>
-		<a href="${pageContext.request.contextPath}/content/signup.jsp">Create account</a>
+		<a href="${pageContext.request.contextPath}/register">Create account</a>
 	</center>
 
 	<div class="section"></div>
