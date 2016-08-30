@@ -1,9 +1,9 @@
 /**
  * 
  */
+
 $(document).ready(
-		function($){
-			
+		function($){			
 			 $("#Submit_Post").click(
 					 function(){
 						 var NoError=true;
@@ -54,7 +54,7 @@ $(document).ready(
 								if(Posts!="undefined")
 									for(var i=Posts.length-1;i>=0;i--){
 										if(!$("#__"+Posts[i]["PostId"]).length)
-										$("#posts").prepend(createAPost(Posts[i]["PostId"],Posts[i]["Post"],Posts[i]["Fullname"],Posts[i]["Likes"],Posts[i]["PostType"],Posts[i]["Liked"],Posts[i]["UserId"],Posts[i]["Comments"]));		
+											$("#posts").prepend(createAPost(Posts[i]["PostId"],Posts[i]["Post"],Posts[i]["Fullname"],Posts[i]["Likes"],Posts[i]["PostType"],Posts[i]["Liked"],Posts[i]["UserId"],Posts[i]["Comments"]));		
 							}
 					})
 							
@@ -62,7 +62,7 @@ $(document).ready(
 			 }
 			 function createAPost(postid,post,fullname,likes,posttype,liked,userid,comments){		 
 				 var ClassRole =(posttype==1)?"driver":"rider";
-				 var li =$("<li class='collection-item avatar email-unread selected' id='_" + postid + "'>" +
+				 var li =$("<li class='collection-item avatar email-unread selected' id='__" + postid + "'>" +
 			              "<i class='"+ClassRole+"'></i>" +
 			               "<span class='title'>" + fullname+ "</span>" + 
 			               "<p class ='post_text'>" + post + "</p></div></li>");
@@ -139,7 +139,7 @@ $(document).ready(
 			 function unBind(anchor){
 				 anchor.click(function(){});
 			 }
-			if(LoadedPosts!="undefined")
+			if(LoadedPosts!=null&&LoadedPosts.length!=null)
 				for(var i=LoadedPosts.length-1;i>=0;i--)
 					$("#posts").prepend(createAPost(LoadedPosts[i]["PostId"],LoadedPosts[i]["Post"],LoadedPosts[i]["Fullname"],LoadedPosts[i]["Likes"],LoadedPosts[i]["PostType"],LoadedPosts[i]["Liked"],LoadedPosts[i]["UserId"],LoadedPosts[i]["Comments"]));
 			
