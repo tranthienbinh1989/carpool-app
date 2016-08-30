@@ -48,7 +48,6 @@ public class UserRepository {
 	          prepStatement.setInt(7, user.getBirthyear());
 	          prepStatement.setString(8, user.getEmail());
 	          prepStatement.setString(9, user.getPassword());
-
 	          prepStatement.executeUpdate();
 	      } catch (SQLException e) {
 	          e.printStackTrace();
