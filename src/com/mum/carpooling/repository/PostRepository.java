@@ -65,7 +65,7 @@ public class PostRepository {
 	public static ArrayList<Post> GetPosts(long UserId,int From, int To){
 		ArrayList<Post> Posts = new ArrayList<Post>();
 		try {
-			PreparedStatement  statement = DBConnection.getConnection().prepareStatement("SELECT posts.postid,posts.post,posts.posttype,posts.userid,likeCount.likes,users.fullname,userLiked.liked,commentCount.comments FROM posts LEFT OUTER JOIN((select postid,count(*) AS likes FROM likes group by postid) AS likeCount) ON likeCount.postid=posts.postid LEFT OUTER JOIN users ON posts.userid = users.userid LEFT OUTER JOIN (SELECT count(*) as liked,userid,postid  FROM likes group by userid,postid having likes.userid=?) as userLiked  on userLiked.postid=posts.postid LEFT OUTER JOIN((select postid,count(*) AS comments FROM comments group by postid) AS commentCount) ON commentCount.postid=posts.postid ORDER BY postid DESC LIMIT ?,?");
+			PreparedStatement  statement = DBConnection.getConnection().prepareStatement("SELECT posts.postid,posts.post,posts.posttype,posts.userid,likeCount.likes,users.firstname,users.lastname,userLiked.liked,commentCount.comments FROM posts LEFT OUTER JOIN((select postid,count(*) AS likes FROM likes group by postid) AS likeCount) ON likeCount.postid=posts.postid LEFT OUTER JOIN users ON posts.userid = users.userid LEFT OUTER JOIN (SELECT count(*) as liked,userid,postid  FROM likes group by userid,postid having likes.userid=?) as userLiked  on userLiked.postid=posts.postid LEFT OUTER JOIN((select postid,count(*) AS comments FROM comments group by postid) AS commentCount) ON commentCount.postid=posts.postid ORDER BY postid DESC LIMIT ?,?");
 			statement.setLong(1, UserId);
 			statement.setInt(2, From);
 			statement.setInt(3,  To);
@@ -73,7 +73,7 @@ public class PostRepository {
 			while (rs.next()) {
 				Post post = new Post(rs.getInt("userid"),rs.getString("post"),rs.getInt("posttype"));
 				post.setPostid(rs.getInt("postid"));
-				post.setFullname(rs.getString("fullname"));				
+				post.setFullname(rs.getString("firstname") + " "+rs.getString("lastname"));				
 				post.setLikes(rs.getInt("likes"));
 				post.setIsLiked(rs.getInt("liked"));
 				post.setComments(rs.getInt("Comments"));

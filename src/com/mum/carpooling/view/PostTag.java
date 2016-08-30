@@ -21,7 +21,7 @@ public class PostTag extends SimpleTagSupport {
 	 public void doTag() throws JspException, IOException {
 		 //User CurrentUser = PostController.getUser();//getJspContext().getAttribute("CurrentUser",PageContext.SESSION_SCOPE);
 		 
-		 User CurrentUser =(User) getJspContext().getAttribute("CurrentUser",PageContext.SESSION_SCOPE);
+		 User CurrentUser =(User) getJspContext().getAttribute("currentUser",PageContext.SESSION_SCOPE);
 		 
 		 JspWriter out = getJspContext().getOut();
 		 

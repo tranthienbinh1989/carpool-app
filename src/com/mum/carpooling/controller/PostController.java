@@ -42,7 +42,7 @@ public class PostController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		//User CurrentUser = getUser();
-		User CurrentUser = (User)session.getAttribute("CurrentUser");
+		User CurrentUser = (User)session.getAttribute("currentUser");
 	String Action = request.getParameter("Action");
 	if(Action!=null && !Action.isEmpty()){
 		if(Action.equals("Save")){
