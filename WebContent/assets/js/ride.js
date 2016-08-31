@@ -5,6 +5,8 @@ $(function(){
 	var geoJSON;
 	var request;
 	var gettingData = false;
+	var openWeatherMapKey = "1b8cdd202c89abaeecade9a428b46b61";
+		
 	function initialize() {
 		  var mapOptions = {
 		    zoom: 10,
@@ -33,7 +35,7 @@ $(function(){
 				         initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 				         map.setCenter(initialLocation);
 				     });
-				 }
+			   }
 		  }
 		  
 		// Create the search box and link it to the UI element.
@@ -94,6 +96,124 @@ $(function(){
 	        });
 	        map.fitBounds(bounds);
 	      });
+	      
+	      
+	   // Add interaction listeners to make weather requests
+		  google.maps.event.addListener(map, 'idle', checkIfDataRequested);
+
+		  // Sets up and populates the info window with details
+		  map.data.addListener('click', function(event) {
+		    infowindow.setContent(
+		     "<img src=" + event.feature.getProperty("icon") + ">"
+		     + "<br /><strong>" + event.feature.getProperty("fullname") + "</strong>"
+		     + "<br />" + event.feature.getProperty("postContent")
+		     );
+		    infowindow.setOptions({
+		        position:{
+		          lat: event.latLng.lat(),
+		          lng: event.latLng.lng()
+		        },
+		        pixelOffset: {
+		          width: 0,
+		          height: -15
+		        }
+		      });
+		    infowindow.open(map);
+		  });
 	}
+	
+	
+
+	var checkIfDataRequested = function() {
+	  // Stop extra requests being sent
+	  while (gettingData === true) {
+	    request.abort();
+	    gettingData = false;
+	  }
+	  getCoords();
+	};
+
+	// Get the coordinates from the Map bounds
+	var getCoords = function() {
+	  var latlng = map.getCenter();
+	  getTrips(latlng.lat(), latlng.lng());
+	};
+	
+	
+	// Make the weather request
+	var getTrips = function(lat, lng) {
+	  gettingData = true;
+	  var getRideUrl = "ridemap";
+		request = $.post(getRideUrl, {
+			'action' : "getFrom",
+			'fromLat' : lat,
+			'fromLong' : lng
+		}).done(proccessResults).fail(function() {
+			
+		});
+	};
+	
+	// Take the JSON results and proccess them
+	var proccessResults = function(data) {
+	  if (data.length > 0) {
+	      resetData();
+	      for (var i = 0; i < data.length; i++) {
+	        geoJSON.features.push(jsonToGeoJson(data[i]));
+	      }
+	      drawIcons(geoJSON);
+	  }
+	};
+
+	var infowindow = new google.maps.InfoWindow();
+
+	// For each result that comes back, convert the data to geoJSON
+	var jsonToGeoJson = function (postItem) {
+	  var feature = {
+	    type: "Feature",
+	    properties: {
+	      fullname: postItem.fullname,
+	      postId: postItem.postId,
+	      postType: postItem.postType,
+	      postContent: postItem.postContent,
+	      icon: "/carpool-app/assets/img/icon.png",
+	      coordinates: [Number(postItem.fromLong), Number(postItem.fromLat)]
+	    },
+	    geometry: {
+	      type: "Point",
+	      coordinates: [Number(postItem.fromLong), Number(postItem.fromLat)]
+	    }
+	  };
+	  // Set the custom marker icon
+	  map.data.setStyle(function(feature) {
+	    return {
+	      icon: {
+	        url: "/carpool-app/assets/img/marker.png",
+	        anchor: new google.maps.Point(25, 25)
+	      }
+	    };
+	  });
+
+	  // returns object
+	  return feature;
+	};
+
+	// Add the markers to the map
+	var drawIcons = function () {
+	   map.data.addGeoJson(geoJSON);
+	   // Set the flag to finished
+	   gettingData = false;
+	};
+
+	// Clear data layer and geoJSON
+	var resetData = function () {
+	  geoJSON = {
+	    type: "FeatureCollection",
+	    features: []
+	  };
+	  map.data.forEach(function(feature) {
+	    map.data.remove(feature);
+	  });
+	};
+	
 	google.maps.event.addDomListener(window, 'load', initialize);
 });

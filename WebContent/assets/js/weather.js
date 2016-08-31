@@ -4,7 +4,7 @@ $(function() {
 	var geoJSON;
 	var request;
 	var gettingData = false;
-	var openWeatherMapKey = "1b8cdd202c89abaeecade9a428b46b61"
+	var openWeatherMapKey = "1b8cdd202c89abaeecade9a428b46b61";
     var address = street + " " + city + " " + state + " " + zipcode;
 	
 	function initialize() {

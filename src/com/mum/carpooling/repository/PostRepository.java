@@ -119,10 +119,10 @@ public class PostRepository {
 					+ "* sin( radians( fromlatitue ) )"
 					+ ")"
 					+ ") AS distance,"
-					+ ",posts.post,posts.posttype,posts.fromlatitue,posts.fromlongitue,posts.userid,users.firstname,users.lastname "
+					+ "posts.post,posts.posttype, fromlatitue, fromlongitue, posts.userid,users.firstname,users.lastname "
 					+ "FROM posts join users "
 					+ "on posts.userid = users.userid "
-					+ "HAVING distance < 10 "
+					+ "HAVING distance < 50 "
 					+ "ORDER BY distance "
 					+ "LIMIT 0 , 20;";
 			
@@ -139,8 +139,8 @@ public class PostRepository {
 				post.setPosttype(rs.getInt("posttype"));
 				post.setPostid(rs.getInt("postid"));
 				post.setFullname(rs.getString("firstname") + " "+rs.getString("lastname"));
-				post.setFromLatitue(rs.getString("fromlatitude"));
-				post.setFromLongitue(rs.getString("longitude"));
+				post.setFromLatitue(rs.getString("fromlatitue"));
+				post.setFromLongitue(rs.getString("fromlongitue"));
 				Posts.add(post);
 			}
 		} catch (SQLException e) {
