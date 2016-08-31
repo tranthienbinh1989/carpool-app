@@ -1,4 +1,5 @@
 $(function() {
+	$('.button-collapse').sideNav();
 	var map;
 	var geoJSON;
 	var request;
@@ -231,27 +232,25 @@ $(function() {
 	var position;
  
 	if((zipcode != 0 && zipcode != "") && street != "" && city != "" && state != "") {
-	
-	}
-	  
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position){
-			getForecastData(position.coords.latitude, position.coords.longitude);
-		});
+		geocoder = new google.maps.Geocoder();
+	    geocoder.geocode({
+	        'address': address
+	    }, function(results, status) {
+	        if (status == google.maps.GeocoderStatus.OK) {
+	        	getForecastData(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+	        }
+	    });
 	} else {
-		if((zipcode != 0 && zipcode != "") && street != "" && city != "" && state != "") {
-			geocoder = new google.maps.Geocoder();
-		    geocoder.geocode({
-		        'address': address
-		    }, function(results, status) {
-		        if (status == google.maps.GeocoderStatus.OK) {
-		        	getForecastData(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-		        }
-		    });
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position){
+				getForecastData(position.coords.latitude, position.coords.longitude);
+			});
 		} else {
-			getForecastData(lat, long);
+				getForecastData(lat, long);
 		}
 	}
+	  
+
 	
 	function getForecastData(latitude, longitude) {
 		//get forecast 5 days 3 hours data
@@ -271,7 +270,7 @@ $(function() {
 				var icon = "<img src='http://openweathermap.org/img/w/"
 		            + v.weather[0].icon  + ".png' />";
 				var precip;
-				if(v.rain.h3 != "undefined") {
+				if(v.rain != "undefined") {
 					precip = "0%"
 				} else {
 					v.rain.h3 = v.rain.h3*1000 + "%";
