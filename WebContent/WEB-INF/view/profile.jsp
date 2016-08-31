@@ -28,7 +28,8 @@
       		<c:otherwise>
       			<li><a href="logout">Logout</a></li>
         		<li><a href="weathermap">Weather Map</a></li>
-        		<li><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"></a></li>
+        		<li><a href="ridemap">Ride Map</a></li>
+        		<li><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"> </a></li>
       		</c:otherwise>
       	</c:choose>
       </ul>
@@ -40,7 +41,8 @@
       		<c:otherwise>
       			<li><a href="logout">Logout</a></li>
         		<li><a href="weathermap">Weather Map</a></li>
-        		<li><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"></a></li>
+        		<li><a href="ridemap">Ride Map</a></li>
+        		<li><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"> </a></li>
       		</c:otherwise>
       	</c:choose>
       </ul>
@@ -143,6 +145,7 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 	<script>
 		$(document).ready(function(){
+	        $('.button-collapse').sideNav();
 			var gender = ${currentUser.gender};
 			$("#gender").val(gender);
 			$('select').material_select();

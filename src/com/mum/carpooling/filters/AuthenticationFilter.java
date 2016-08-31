@@ -52,15 +52,26 @@ public class AuthenticationFilter implements Filter {
 		HttpSession session = req.getSession(true);
 		User currentUser = (User) session.getAttribute("currentUser");
 		
-//		if(!uri.endsWith("login") && currentUser == null){
-//			this.context.log("Unauthorized access request");
-//			res.sendRedirect("login");
-//		}else{
-//			// pass the request along the filter chain
-//			chain.doFilter(request, response);
-//		}
-		chain.doFilter(request, response);
+		if(excludeFromFilter(uri)) {
+			chain.doFilter(request, response);
+		} else {
+			if(!uri.endsWith("login") && currentUser == null){
+				this.context.log("Unauthorized access request");
+				res.sendRedirect("login");
+			}else{
+				// pass the request along the filter chain
+				chain.doFilter(request, response);
+			}
+		}
 	}
+	
+	private boolean excludeFromFilter(String path) {
+	      if (path.endsWith(".css") || path.endsWith(".js") || path.endsWith(".png")) {
+	    	  return true; // add more page to exclude here
+	      } else {
+	    	  return false;
+	      }
+   }
 
 	/**
 	 * @see Filter#init(FilterConfig)

@@ -51,15 +51,23 @@ if (session == null || session.getAttribute("currentUser")==null)
       		<c:otherwise>
       			<li><a href="logout">Logout</a></li>
         		<li><a href="weathermap">Weather Map</a></li>
+        		<li><a href="ridemap">Ride Map</a></li>
         		<li><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"> </a></li>
       		</c:otherwise>
       	</c:choose>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">Javascript</a></li>
-        <li><a href="mobile.html">Mobile</a></li>
+        <c:choose>
+      		<c:when test="${empty sessionScope.currentUser }">
+      			<li><a href="login">Login</a></li>
+      		</c:when>
+      		<c:otherwise>
+      			<li><a href="logout">Logout</a></li>
+        		<li><a href="weathermap">Weather Map</a></li>
+        		<li><a href="ridemap">Ride Map</a></li>
+        		<li><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"> </a></li>
+      		</c:otherwise>
+      	</c:choose>
       </ul>
     </div>
   </nav>
