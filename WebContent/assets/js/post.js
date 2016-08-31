@@ -112,8 +112,8 @@ $(document).ready(
 			               "<p class ='post_text'>" + post + "</p></div></li>");
 				 var PC = $("<div></div>");
 				 var aLikes = $("<a href='javascript:void(0)'><span class='likes' id='__l" + postid + "'>" + likes + "</span></a>");
-				 var TU =$("<i class='material-icons' id='__i'" + postid + ">thumb_up</i>");
-				 var aComments = $("<a href='javascript:void(0)'><span class='comments' id='__c" + postid + "'>"+comments+"</span><i class='material-icons'>chat_bubble</i></a>");
+				 var TU =$("<i class='material-icons tiny' id='__i'" + postid + ">thumb_up</i>");
+				 var aComments = $("<a href='javascript:void(0)'><span class='comments' id='__c" + postid + "'>"+comments+"</span><i class='material-icons tiny'>chat_bubble</i></a>");
 				 
 				 if(!liked){			 
 					 aLikes.click(function(){
@@ -137,7 +137,6 @@ $(document).ready(
 				 else{
 					 TU.addClass("icon-black");
 					 aLikes.click(function(evt){
-						 console.log("here")
 						 evt.preventDefault();
 					 })
 				 }
@@ -155,7 +154,7 @@ $(document).ready(
 				 PC.append(aLikes);
 				 PC.append(aComments);
 				 if(UserId==userid){
-					 var DeleteComment = $("<a href='#!' class='secondary-content'><i class='material-icons icon-red Tiny'>delete</i></a>");
+					 var DeleteComment = $("<a href='#!' class='secondary-content'><i class='material-icons icon-red tiny'>delete</i></a>");
 					 PC.append(DeleteComment)
 					 DeleteComment.click(
 							 function(){
