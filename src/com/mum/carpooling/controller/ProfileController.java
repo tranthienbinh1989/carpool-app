@@ -93,11 +93,13 @@ public class ProfileController extends HttpServlet {
 		if(request.getParameter("zipcode") != null) {
 			if(NumberUtils.isNumber(request.getParameter("zipcode"))) {
 				user.setZipcode(Integer.parseInt(request.getParameter("zipcode")));
+			} else {
+				user.setZipcode(0);
 			}
 		}
 
 		if (userRepository != null) {
-			if (userRepository.findByEmail(user.getEmail())) { 
+			if (userRepository.checkEmailExist(user)) { 
 				request.setAttribute("errorEmail", "invalid");
 			} else {
 				User oldUser =  userRepository.findUserById(user.getUserid());

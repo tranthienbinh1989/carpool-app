@@ -49,8 +49,10 @@ public class PostTag extends SimpleTagSupport {
 					Comment.put("Comments",post.getComments());
 					Comments.add(Comment);
 				}
+		 
 		 out.print("<script> var LoadedPosts; UserId=" + CurrentUser.getUserid()+ "</script>");
 		if(Comments.size()>0)
 			out.print("<script> LoadedPosts="+Comments.toJSONString()+"</script>");
+
 	 }
 }

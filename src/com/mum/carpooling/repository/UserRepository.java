@@ -146,4 +146,24 @@ public class UserRepository {
     	  u.setZipcode(rs.getInt("zipcode"));
     	  return u;
 	  }
+	  
+	  public boolean checkEmailExist(User user) {
+	      try {
+	          PreparedStatement prepStatement = dbConnection.prepareStatement("select count(*) from users where email = ? and userid != ?");
+	          prepStatement.setString(1, user.getEmail());
+	          prepStatement.setLong(2, user.getUserid());
+	                      
+	          ResultSet result = prepStatement.executeQuery();
+	          if (result != null) {   
+	              while (result.next()) {
+	                  if (result.getInt(1) == 1) {
+	                      return true;
+	                  }               
+	              }
+	          }
+	      } catch (Exception e) {
+	          e.printStackTrace();
+	      }
+	      return false;
+	  }
 }
