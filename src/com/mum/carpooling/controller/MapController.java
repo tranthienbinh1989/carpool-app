@@ -48,22 +48,38 @@ public class MapController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String Action = request.getParameter("action");
 		if(Action!=null && !Action.isEmpty()){
-			if(Action.equals("getFrom")){
+			if(Action.equals("getFrom") || Action.equals("getTo")){
 				String fromLat = request.getParameter("fromLat");
 				String fromLong = request.getParameter("fromLong");
 				if(fromLat !=null && fromLong != null) {
-					ArrayList<Post> Posts = PostRepository.getNearestFromPosts(fromLat, fromLong);
 					JSONArray returnPosts = new JSONArray();
-					for(Post post: Posts) {
-						JSONObject p = new JSONObject();
-						p.put("postId", post.getPostid());
-						p.put("postType", post.getPosttype());
-						p.put("postContent", post.getPost());
-						p.put("fullname", post.getFullname());
-						p.put("fromLat", post.getFromLatitue());
-						p.put("fromLong", post.getFromLongitue());
-						returnPosts.add(p);
-					}			
+					ArrayList<Post> Posts = new ArrayList<Post>();
+					if(Action.equals("getFrom")) {
+						Posts = PostRepository.getNearestFromPosts(fromLat, fromLong);
+						for(Post post: Posts) {
+							JSONObject p = new JSONObject();
+							p.put("postId", post.getPostid());
+							p.put("postType", post.getPosttype());
+							p.put("postContent", post.getPost());
+							p.put("fullname", post.getFullname());
+							p.put("fromLat", post.getFromLatitue());
+							p.put("fromLong", post.getFromLongitue());
+							returnPosts.add(p);
+						}	
+					} else {
+						Posts = PostRepository.getNearestToPosts(fromLat, fromLong);
+						for(Post post: Posts) {
+							JSONObject p = new JSONObject();
+							p.put("postId", post.getPostid());
+							p.put("postType", post.getPosttype());
+							p.put("postContent", post.getPost());
+							p.put("fullname", post.getFullname());
+							p.put("fromLat", post.getToLatitue());
+							p.put("fromLong", post.getToLongitue());
+							returnPosts.add(p);
+						}	
+					}
+							
 					response.setContentType("application/json");
 					response.getWriter().write(returnPosts.toJSONString());
 				}

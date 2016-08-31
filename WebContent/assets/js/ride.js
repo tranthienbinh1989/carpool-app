@@ -6,10 +6,10 @@ $(function(){
 	var request;
 	var gettingData = false;
 	var openWeatherMapKey = "1b8cdd202c89abaeecade9a428b46b61";
-		
+	var action = "getFrom";
 	function initialize() {
 		  var mapOptions = {
-		    zoom: 10,
+		    zoom: 13,
 		    center: new google.maps.LatLng(50,-50)
 		  };
 
@@ -40,9 +40,11 @@ $(function(){
 		  
 		// Create the search box and link it to the UI element.
 	      var input = document.getElementById('pac-input');
+	      var types = document.getElementById('type-selector');
 	      var searchBox = new google.maps.places.SearchBox(input);
 	      map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
+	      map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+	      
 	      // Bias the SearchBox results towards current map's viewport.
 	      map.addListener('bounds_changed', function() {
 	        searchBox.setBounds(map.getBounds());
@@ -57,13 +59,13 @@ $(function(){
 	        if (places.length == 0) {
 	          return;
 	        }
-
+        	
 	        // Clear out the old markers.
 	        markers.forEach(function(marker) {
 	          marker.setMap(null);
 	        });
 	        markers = [];
-
+	        
 	        // For each place, get the icon, name and location.
 	        var bounds = new google.maps.LatLngBounds();
 	        places.forEach(function(place) {
@@ -80,12 +82,12 @@ $(function(){
 	          };
 
 	          // Create a marker for each place.
-	          markers.push(new google.maps.Marker({
-	            map: map,
-	            icon: icon,
-	            title: place.name,
-	            position: place.geometry.location
-	          }));
+//	          markers.push(new google.maps.Marker({
+//	            map: map,
+//	            icon: icon,
+//	            title: place.name,
+//	            position: place.geometry.location
+//	          }));
 
 	          if (place.geometry.viewport) {
 	            // Only geocodes have viewport.
@@ -95,6 +97,7 @@ $(function(){
 	          }
 	        });
 	        map.fitBounds(bounds);
+	        checkIfDataRequested();
 	      });
 	      
 	      
@@ -136,6 +139,8 @@ $(function(){
 	// Get the coordinates from the Map bounds
 	var getCoords = function() {
 	  var latlng = map.getCenter();
+	  console.log(latlng.lat());
+	  console.log(latlng.lng());
 	  getTrips(latlng.lat(), latlng.lng());
 	};
 	
@@ -145,7 +150,7 @@ $(function(){
 	  gettingData = true;
 	  var getRideUrl = "ridemap";
 		request = $.post(getRideUrl, {
-			'action' : "getFrom",
+			'action' : action,
 			'fromLat' : lat,
 			'fromLong' : lng
 		}).done(proccessResults).fail(function() {
@@ -155,13 +160,11 @@ $(function(){
 	
 	// Take the JSON results and proccess them
 	var proccessResults = function(data) {
-	  if (data.length > 0) {
-	      resetData();
-	      for (var i = 0; i < data.length; i++) {
-	        geoJSON.features.push(jsonToGeoJson(data[i]));
-	      }
-	      drawIcons(geoJSON);
-	  }
+      resetData();
+      for (var i = 0; i < data.length; i++) {
+        geoJSON.features.push(jsonToGeoJson(data[i]));
+      }
+      drawIcons(geoJSON);
 	};
 
 	var infowindow = new google.maps.InfoWindow();
@@ -216,4 +219,11 @@ $(function(){
 	};
 	
 	google.maps.event.addDomListener(window, 'load', initialize);
+	
+	$('#type-selector input').on('change', function() {
+		   action = $(this).val();
+		   console.log(action);
+		   checkIfDataRequested();
+		});
+	
 });

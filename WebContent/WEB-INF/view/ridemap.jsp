@@ -31,7 +31,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-  <link rel="stylesheet" type="text/css" href="/carpool-app/assets/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/carpool-app/assets/css/ride.css">
   <script>
   	var street = "${currentUser.street}";
   	var city = "${currentUser.city}";
@@ -79,6 +79,12 @@
   	<div class="row">
         <div class="col s12 m12 l12">
         	<input id="pac-input" class="controls" type="text" placeholder="Search for a ride">
+        	<div id="type-selector" class="controls">
+		      <input type="radio" name="type" id="fromTrip" value="getFrom" checked>
+		      <label for="fromTrip">From your location</label>
+		      <input type="radio" name="type" id="toTrip" value="getTo">
+		      <label for="toTrip">To your location</label>
+	        </div>
         	<div id="map"></div>
         </div>
     </div>

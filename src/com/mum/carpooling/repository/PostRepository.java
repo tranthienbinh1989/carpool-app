@@ -148,4 +148,47 @@ public class PostRepository {
 		}
 		return Posts;
 	}
+	
+	public static ArrayList<Post> getNearestToPosts(String lat, String lon) {
+		ArrayList<Post> Posts = new ArrayList<Post>();
+		try {
+			String queryString = "SELECT "
+					+ "postid, ("
+					+ "3959 * acos ("
+					+ "cos ( radians(?) )"
+					+ "* cos( radians( tolatitue ) )"
+					+ "* cos( radians( tolongitue ) - radians(?) )"
+					+ "+ sin ( radians(?) )"
+					+ "* sin( radians( tolatitue ) )"
+					+ ")"
+					+ ") AS distance,"
+					+ "posts.post,posts.posttype, tolatitue, tolongitue, posts.userid,users.firstname,users.lastname "
+					+ "FROM posts join users "
+					+ "on posts.userid = users.userid "
+					+ "HAVING distance < 50 "
+					+ "ORDER BY distance "
+					+ "LIMIT 0 , 20;";
+			
+			
+			PreparedStatement  statement = DBConnection.getConnection().prepareStatement(queryString);
+			statement.setString(1, lat);
+			statement.setString(2, lon);
+			statement.setString(3, lat);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Post post = new Post();
+				post.setUserid(rs.getInt("userid"));
+				post.setPost(rs.getString("post"));
+				post.setPosttype(rs.getInt("posttype"));
+				post.setPostid(rs.getInt("postid"));
+				post.setFullname(rs.getString("firstname") + " "+rs.getString("lastname"));
+				post.setToLatitue(rs.getString("tolatitue"));
+				post.setToLongitue(rs.getString("tolongitue"));
+				Posts.add(post);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return Posts;
+	}
 }
