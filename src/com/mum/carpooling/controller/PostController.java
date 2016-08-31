@@ -52,8 +52,21 @@ public class PostController extends HttpServlet {
 		if(Action.equals("Save")){
 			String PostText = request.getParameter("Post");
 			String PostType = request.getParameter("PostType");
-			if(PostText!=null && !PostText.isEmpty() && PostType!=null && !PostType.isEmpty())
-				PostRepository.SavePost(new Post(CurrentUser.getUserid(),PostText,Integer.parseInt(PostType)));
+			if(PostText!=null && !PostText.isEmpty() && PostType!=null && !PostType.isEmpty()) {
+				Post post = new Post();
+				post.setUserid(CurrentUser.getUserid());
+				post.setPost(PostText);
+				post.setPosttype(Integer.parseInt(PostType));
+				post.setFromAddress(request.getParameter("departure"));
+				post.setToAddress(request.getParameter("destination"));
+				post.setFromLatitue(request.getParameter("departureLat"));
+				post.setFromLongitue(request.getParameter("departureLong"));
+				post.setToLatitue(request.getParameter("destinationLat"));
+				post.setToLongitue(request.getParameter("destinationLong"));
+				System.out.println("create a post");
+				PostRepository.SavePost(post);
+			}
+				
 		}
 		else if(Action.equals("Delete")){
 			String PostId = request.getParameter("PostId");

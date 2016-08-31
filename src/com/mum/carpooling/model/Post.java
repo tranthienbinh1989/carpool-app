@@ -3,6 +3,14 @@ package com.mum.carpooling.model;
 public class Post {
 	long postid,likes;
 	long userid,Comments;
+	
+	String fromAddress;
+	String toAddress;
+	String fromLatitue;
+	String fromLongitue;
+	String toLatitue;
+	String toLongitue;
+	
 	public long getComments() {
 		return Comments;
 	}
@@ -30,6 +38,10 @@ public class Post {
 		this.fullname = fullname;
 	}
 	int posttype;
+	
+	public Post() {
+		
+	}
 	
 	public Post(long userid, String post, int posttype) {
 		super();
@@ -61,6 +73,40 @@ public class Post {
 	public void setPosttype(int posttype) {
 		this.posttype = posttype;
 	}
-	
-	
+	public String getFromAddress() {
+		return fromAddress;
+	}
+	public void setFromAddress(String fromAddress) {
+		this.fromAddress = fromAddress;
+	}
+	public String getToAddress() {
+		return toAddress;
+	}
+	public void setToAddress(String toAddress) {
+		this.toAddress = toAddress;
+	}
+	public String getFromLatitue() {
+		return fromLatitue;
+	}
+	public void setFromLatitue(String fromLatitue) {
+		this.fromLatitue = fromLatitue;
+	}
+	public String getFromLongitue() {
+		return fromLongitue;
+	}
+	public void setFromLongitue(String fromLongitue) {
+		this.fromLongitue = fromLongitue;
+	}
+	public String getToLatitue() {
+		return toLatitue;
+	}
+	public void setToLatitue(String toLatitue) {
+		this.toLatitue = toLatitue;
+	}
+	public String getToLongitue() {
+		return toLongitue;
+	}
+	public void setToLongitue(String toLongitue) {
+		this.toLongitue = toLongitue;
+	}
 }

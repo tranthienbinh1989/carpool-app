@@ -53,12 +53,19 @@ public class PostRepository {
 	}
 	public static boolean SavePost(Post post){
 		try {
-			PreparedStatement  statement = DBConnection.getConnection().prepareStatement("INSERT INTO posts(userid,post,posttype) VALUES (?,?,?)");
+			PreparedStatement  statement = DBConnection.getConnection().prepareStatement("INSERT INTO posts("
+					+ "userid,post,posttype, fromaddress, toaddress, fromlatitue, fromlongitue, tolatitue, tolongitue) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			statement.setLong(1,post.getUserid());
 			statement.setString(2, post.getPost());
 			statement.setInt(3,  post.getPosttype());
+			statement.setString(4,  post.getFromAddress());
+			statement.setString(5,  post.getToAddress());
+			statement.setString(6,  post.getFromLatitue());
+			statement.setString(7,  post.getFromLongitue());
+			statement.setString(8,  post.getToLatitue());
+			statement.setString(9,  post.getToLongitue());
 			statement.executeUpdate();
-			return true;
         
 	} catch (SQLException e) {
 		System.out.println(e.getMessage());

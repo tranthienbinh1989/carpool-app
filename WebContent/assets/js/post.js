@@ -20,22 +20,30 @@ $(document).ready(
 						 var NoError=true;
 						 $("#error_SelectRole").empty();
 						 $("#error_PostText").empty();
-						 if(!($("#Rider:checked").val()=="on" || $("#Driver:checked").val()=="on")){					 
-							 $("#error_SelectRole").text("Select either one");	
-							 NoError=false;
-						 }
 						 if($("#compose").val()==""){
 							 $("#error_PostText").text("Please type a post")
 							 NoError=false;
 						 }
 						 if(NoError){
-							 var PostType = ($("#Rider:checked").val()=="on")?1:0;
+							 var PostType = ($("#postType").is(':checked')) ? 1 : 0;
 							 var Post = $("#compose").val();
+							 var departure = $("#departure").val();
+							 var destination = $("#destination").val();
+							 var departureLat = $("#departureLat").val();
+							 var departureLong = $("#departureLong").val();
+							 var destinationLat = $("#destinationLat").val();
+							 var destinationLong = $("#destinationLong").val();
 							 $.ajax("PostController",{
 								 data:{
 									 "Action":"Save",
 									 "PostType":PostType,
-									 "Post":Post
+									 "Post":Post,
+									 "departure": departure,
+									 "destination": destination,
+									 "departureLat": departureLat,
+									 "departureLong": departureLong,
+									 "destinationLat": destinationLat,
+									 "destinationLong": destinationLong
 								 }
 		 						}	
 								).done(
@@ -43,8 +51,6 @@ $(document).ready(
 											$("#error_SelectRole").empty();
 											$("#error_PostText").empty();
 											$('#compose').val("")
-											$("#Rider").prop('checked', false);
-											$("#Driver").prop('checked', false);
 											$('#modal1').closeModal();											
 											GetPost(0,20,false)
 											window.scrollTo(0, 0);
@@ -246,6 +252,7 @@ $(document).ready(
 		                        dir : "ltr"
 		                     };
 		                  var notification = new Notification("Carpooling",options);
+		                  setTimeout(notification.close.bind(notification), 4000);
 		                  notification.onclick=function(){
 		                	  GetPost(0,newPostCounts,false);
 		                	  window.scrollTo(0, 0);
@@ -265,6 +272,7 @@ $(document).ready(
 		                      dir : "ltr"
 		                  };
 		                var notification = new Notification("Carpooling",options);
+		                setTimeout(notification.close.bind(notification), 4000);
 		                  notification.onclick=function(){
 		                	  GetPost(0,newPostCounts,false);
 		                	  window.scrollTo(0, 0);

@@ -161,3 +161,12 @@ span.comments{
 .icon-black {
     color: #777777;
 }
+
+.pac-container { z-index: 100000; }
+.modal {
+	width: 65% !important ;
+	max-height: 100% !important;
+}
+.modal span#title {
+	font-size: 30px;
+}

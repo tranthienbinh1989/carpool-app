@@ -2,48 +2,57 @@
       $(function(){
         $('.button-collapse').sideNav();
         $('.modal-trigger').leanModal();
-        
-     // Determine the correct object to use
-        var notification = window.Notification || window.mozNotification || window.webkitNotification;
-
-        // The user needs to allow this
-        if ('undefined' === typeof notification) {
-        	alert('Web notification not supported');
-        } else {
-        	notification.requestPermission(function(permission){});
-        }
-        $("#notify").click(notifyMe);
-        function notifyMe() {
-          if (!("Notification" in window)) {
-            alert("This browser does not support desktop notification");
-          }
-          else if (Notification.permission === "granted") {
-                var options = {
-                        body: "This is the body of the notification",
-                        icon: "assets/img/icon.png",
-                        dir : "ltr"
-                     };
-                  var notification = new Notification("Carpooling",options);
-          }
-          else if (Notification.permission !== 'denied') {
-            Notification.requestPermission(function (permission) {
-              if (!('permission' in Notification)) {
-                Notification.permission = permission;
-              }
+        $('#depature').on('focus', geolocate);
+        $('#destination').on('focus', geolocate);
+    function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        autocompleteDeparture = new google.maps.places.Autocomplete(
+            (document.getElementById('departure')),
+            {types: ['geocode']});
+        autocompleteDestination = new google.maps.places.Autocomplete(
+                (document.getElementById('destination')),
+                {types: ['geocode']});
+        autocompleteDeparture.addListener('place_changed', function() {
+            var place = autocompleteDeparture.getPlace();
+            if (!place.geometry) {
+              window.alert("Autocomplete's returned place contains no geometry");
+              return;
+            }
+            $("#departureLat").val(place.geometry.location.lat());
+            $("#departureLong").val(place.geometry.location.lng());
             
-              if (permission === "granted") {
-                var options = {
-                      body: "This is the body of the notification",
-                      icon: "assets/img/icon.png",
-                      dir : "ltr"
-                  };
-                var notification = new Notification("Carpooling",options);
-              }
+        });
+        
+        autocompleteDestination.addListener('place_changed', function() {
+            var place = autocompleteDestination.getPlace();
+            if (!place.geometry) {
+              window.alert("Autocomplete's returned place contains no geometry");
+              return;
+            }
+            $("#destinationLat").val(place.geometry.location.lat());
+            $("#destinationLong").val(place.geometry.location.lng());
+            
+        });
+      }
+     // Bias the autocomplete object to the user's geographical location,
+        // as supplied by the browser's 'navigator.geolocation' object.
+        function geolocate() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+              var geolocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              var circle = new google.maps.Circle({
+                center: geolocation,
+                radius: position.coords.accuracy
+              });
+              autocompleteDeparture.setBounds(circle.getBounds());
+              autocompleteDestination.setBounds(circle.getBounds());
             });
           }
-        };
-//        window.setInterval(function(){
-//        	notifyMe();
-//        }, 5000);
+        }
+        google.maps.event.addDomListener(window, 'load', initAutocomplete);
     }); // end of document ready
 })(jQuery); // end of jQuery name space

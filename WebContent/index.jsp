@@ -69,13 +69,12 @@ if (session == null || session.getAttribute("currentUser")==null)
 
           <div class="col s12 m4 l3">
           	<p>The weather in your city today</p>
-            </div>
-
-            <div id="post-list" class="col s12 m8 l9">
-             <ul class="collection" id="posts">
-             	<Post:PostTag/>
-              </ul>
-            </div>
+          </div>
+          <div id="post-list" class="col s12 m8 l9">
+           <ul class="collection" id="posts">
+           	<Post:PostTag/>
+            </ul>
+          </div>
         </div>
          <!-- Compose Email Trigger -->
             <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
@@ -87,22 +86,43 @@ if (session == null || session.getAttribute("currentUser")==null)
             <!-- Compose Email Structure -->
             <div id="modal1" class="modal">
               <div class="model-email-content">
+              <p class="center-align"><span id="title" class="blue-text text-darken-2">Make a ride</span>
                 <div class="row">                 
                   	<div class="row">
-                  	<div class="col s12">
-                      <ul>
-                        <li><input name="group1" type="radio" id="Rider" /><label for="Rider">I need a ride</label></li>
-                        <li><input name="group1" type="radio" id="Driver" /><label for="Driver">I need People</label></li>
-                      </ul>
-                      <div id="error_SelectRole" class="error"></div>
-                  	</div>       
+	                  	<div class="col s12">
+		                      <div class="switch">
+							    <label>
+							      Rider
+							      <input type="checkbox" name="postType" id="postType">
+							      <span class="lever"></span>
+							      Driver
+							    </label>
+							  </div>
+	                  	</div>       
                   	</div>
-                    <div class="row">
+                  	<div class="row">
+                  		<div class="input-field col s12">
+                  			<input name="depature" type="text" id="departure" /><label for="departure">Departure</label>
+                  			<input type="hidden" name="departureLat" id="departureLat" value="" />
+                  			<input type="hidden" name="departureLong" id="departureLong" value="" />
+                  		</div>
+                  	</div>
+                  	<div class="row">
+                  		<div class="input-field col s12">
+                  			<input name="destination" type="text" id="destination" /><label for="destination">Destination</label>
+                  			<input type="hidden" name="destinationLat" id="destinationLat" value="" />
+                  			<input type="hidden" name="destinationLong" id="destinationLong" value="" />
+                  		</div>
+                  	</div>
+                  	<div class="row">
+                  		<div class="input-field col s12">
+                  			<textarea id="compose" class="materialize-textarea validate" length="500" required></textarea>
+	                        <label for="compose" data-error="wrong" data-success="right">Content</label>
+	                        <div id="error_PostText" class="error"></div>
+                  		</div>
+                  	</div>
+                    <div class="row right">
                       <div class="input-field col s12">
-
-                        <textarea id="compose" class="materialize-textarea" length="500"></textarea>
-                        <label for="compose">Your post</label>
-                        <div id="error_PostText" class="error"></div>
                         <button class="btn waves-effect waves-light" name="action" id="Submit_Post">Post
     					<i class="material-icons right">send</i>
   						</button>  						
@@ -113,6 +133,7 @@ if (session == null || session.getAttribute("currentUser")==null)
             </div>
   </div>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyB2K5mYHqHZmHKg0SIrIkmMxjGyv08APHc&libraries=places"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/post.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/main.js"></script>
