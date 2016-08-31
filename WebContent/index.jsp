@@ -3,7 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="Post" uri="/WEB-INF/PostTag.tld" %>
 <!doctype html>
-
+<%
+if (session == null || session.getAttribute("currentUser")==null)
+	response.sendRedirect("/carpool-app/login");
+%>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -126,7 +129,7 @@
                   	<div class="col s12">
                       <ul>
                         <li><input name="group1" type="radio" id="Rider" /><label for="Rider">I need a ride</label></li>
-                        <li><input name="group1" type="radio" id="Driver" /><label for="Driver">I need a People</label></li>
+                        <li><input name="group1" type="radio" id="Driver" /><label for="Driver">I need People</label></li>
                       </ul>
                       <div id="error_SelectRole" class="error"></div>
                   	</div>       
@@ -145,7 +148,6 @@
                 </div>
               </div>
             </div>
-            <input type="button" id="notify" value="Notify" />
   </div>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
@@ -157,47 +159,7 @@
         $('.modal-trigger').leanModal();
         
      // Determine the correct object to use
-        var notification = window.Notification || window.mozNotification || window.webkitNotification;
-
-        // The user needs to allow this
-        if ('undefined' === typeof notification) {
-        	alert('Web notification not supported');
-        } else {
-        	notification.requestPermission(function(permission){});
-        }
-        $("#notify").click(notifyMe);
-        function notifyMe() {
-          if (!("Notification" in window)) {
-            alert("This browser does not support desktop notification");
-          }
-          else if (Notification.permission === "granted") {
-                var options = {
-                        body: "This is the body of the notification",
-                        icon: "assets/img/icon.png",
-                        dir : "ltr"
-                     };
-                  var notification = new Notification("Carpooling",options);
-          }
-          else if (Notification.permission !== 'denied') {
-            Notification.requestPermission(function (permission) {
-              if (!('permission' in Notification)) {
-                Notification.permission = permission;
-              }
-            
-              if (permission === "granted") {
-                var options = {
-                      body: "This is the body of the notification",
-                      icon: "assets/img/icon.png",
-                      dir : "ltr"
-                  };
-                var notification = new Notification("Carpooling",options);
-              }
-            });
-          }
-        };
-//        window.setInterval(function(){
-//        	notifyMe();
-//        }, 5000);
+       
       }); // end of document ready
     })(jQuery); // end of jQuery name space
   </script>

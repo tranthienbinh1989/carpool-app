@@ -22,7 +22,7 @@ public class PostTag extends SimpleTagSupport {
 		 //User CurrentUser = PostController.getUser();//getJspContext().getAttribute("CurrentUser",PageContext.SESSION_SCOPE);
 		 
 		 User CurrentUser =(User) getJspContext().getAttribute("currentUser",PageContext.SESSION_SCOPE);
-		 
+		 if(CurrentUser==null)return;
 		 JspWriter out = getJspContext().getOut();
 		 
 		 ArrayList<Post> Posts = PostRepository.GetPosts(CurrentUser.getUserid(),0, 25);
