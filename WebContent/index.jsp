@@ -52,7 +52,7 @@ if (session == null || session.getAttribute("currentUser")==null)
       			<li><a href="logout">Logout</a></li>
         		<li><a href="weathermap">Weather Map</a></li>
         		<li><a href="ridemap">Ride Map</a></li>
-        		<li><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"> </a></li>
+        		<li><div><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"><span style="font-size:10px">${sessionScope.currentUser.getFirstname()}</span></a></div></li>
       		</c:otherwise>
       	</c:choose>
       </ul>
@@ -76,7 +76,7 @@ if (session == null || session.getAttribute("currentUser")==null)
         <div class="row">
 
           <div class="col s12 m4 l3">
-          	<p>The weather in your city today</p>
+          	<p>Carpool-app, your best chance to get or give a good ride</p>
           </div>
           <div id="post-list" class="col s12 m8 l9">
            <ul class="collection" id="posts">
@@ -86,7 +86,7 @@ if (session == null || session.getAttribute("currentUser")==null)
         </div>
          <!-- Compose Email Trigger -->
             <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-              <a class="btn-floating btn-large red modal-trigger" href="#modal1">
+              <a class="btn-floating btn-large blue modal-trigger" href="#modal1">
                 <i class="large mdi-editor-mode-edit"></i>
               </a>
             </div>
@@ -110,28 +110,28 @@ if (session == null || session.getAttribute("currentUser")==null)
                   	</div>
                   	<div class="row">
                   		<div class="input-field col s12">
-                  			<input name="depature" type="text" id="departure" /><label for="departure">Departure</label>
+                  			<input name="depature" type="text" id="departure" placeholder="" /><label for="departure">Departure</label>
                   			<input type="hidden" name="departureLat" id="departureLat" value="" />
                   			<input type="hidden" name="departureLong" id="departureLong" value="" />
                   		</div>
                   	</div>
                   	<div class="row">
                   		<div class="input-field col s12">
-                  			<input name="destination" type="text" id="destination" /><label for="destination">Destination</label>
+                  			<input name="destination" type="text" id="destination" placeholder=""/><label for="destination">Destination</label>
                   			<input type="hidden" name="destinationLat" id="destinationLat" value="" />
                   			<input type="hidden" name="destinationLong" id="destinationLong" value="" />
                   		</div>
                   	</div>
                   	<div class="row">
                   		<div class="input-field col s12">
-                  			<textarea id="compose" class="materialize-textarea validate" length="500" required></textarea>
+                  			<textarea id="compose" class="materialize-textarea validate" length="500" required placeholder=""></textarea>
 	                        <label for="compose" data-error="wrong" data-success="right">Content</label>
 	                        <div id="error_PostText" class="error"></div>
                   		</div>
                   	</div>
                     <div class="row right">
                       <div class="input-field col s12">
-                        <button class="btn waves-effect waves-light" name="action" id="Submit_Post">Post
+                        <button class="btn waves-effect waves-light blue" name="action" id="Submit_Post">Post
     					<i class="material-icons right">send</i>
   						</button>  						
                       </div>
@@ -144,7 +144,7 @@ if (session == null || session.getAttribute("currentUser")==null)
                   	 <p class="center-align">Are you sure you want to delete the post?</p>                        
                 </div>
                     <div class="row center-align">
-                    	<a class="modal-action modal-close waves-effect waves-light btn btn-small" style="margin-left: 5px"><i class="material-icons left">close</i>Close</a>
+                    	<a class="modal-action modal-close waves-effect waves-light btn btn-small blue"	><i class="material-icons left">close</i>Close</a>
                     	<span> </span>	
                         <a id="deletePostBTN" class="modal-action modal-close waves-effect waves-light btn btn-small red"><i class="material-icons left">delete</i>Delete</a>                    	
     				</div>

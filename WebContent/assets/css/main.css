@@ -131,11 +131,12 @@ span.comments{
 	top:10px;
 	left:10px;
 	position:absolute;
+	float:left;
     background-image: url("/carpool-app/assets/img/driver.png");
     background-repeat:no-repeat;
-    background-scale:50%;
+    background-scale:20%;
     background-size:50px 50px;
-    background-color:#DFDFF7;
+    background-color:#40C0FF;
     border-radius:25px;
 }
 .rider{
@@ -148,9 +149,9 @@ span.comments{
 	float:left;
     background-image: url("/carpool-app/assets/img/rider.png");
     background-repeat:no-repeat;
-    background-scale:50%;
+    background-scale:20%;
     background-size:50px 50px;
-    background-color:#DFDFF7;
+    background-color:#40C0FF;
     border-radius:25px;
 }
 #deletemodal { width:400px !important  }
