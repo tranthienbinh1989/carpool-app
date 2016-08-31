@@ -16,6 +16,20 @@ import com.mum.carpooling.ultil.DBConnection;
 import java.util.*;
 
 public class PostRepository {
+	public static int New(long afterPostId){
+		try {
+			PreparedStatement  statementSel = DBConnection.getConnection().prepareStatement("SELECT count(*) as count FROM posts WHERE postid>?");
+			statementSel.setLong(1, afterPostId);
+			ResultSet rs = statementSel.executeQuery();
+			if(rs.next())					
+				return rs.getInt("count");
+			return 0;
+        
+	} catch (SQLException e) {
+		System.out.println(e.getMessage());
+	}
+		return 0;
+	}
 	public static boolean Like(long userid,long postid){
 		try {
 			PreparedStatement  statementSel = DBConnection.getConnection().prepareStatement("SELECT likes.postid FROM likes WHERE userid=? AND postid=?");

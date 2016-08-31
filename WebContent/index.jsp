@@ -3,7 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="Post" uri="/WEB-INF/PostTag.tld" %>
 <!doctype html>
-
+<%
+if (session == null || session.getAttribute("currentUser")==null)
+	response.sendRedirect("/carpool-app/login");
+%>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -89,7 +92,7 @@
                   	<div class="col s12">
                       <ul>
                         <li><input name="group1" type="radio" id="Rider" /><label for="Rider">I need a ride</label></li>
-                        <li><input name="group1" type="radio" id="Driver" /><label for="Driver">I need a People</label></li>
+                        <li><input name="group1" type="radio" id="Driver" /><label for="Driver">I need People</label></li>
                       </ul>
                       <div id="error_SelectRole" class="error"></div>
                   	</div>       
@@ -108,7 +111,6 @@
                 </div>
               </div>
             </div>
-            <input type="button" id="notify" value="Notify" />
   </div>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>

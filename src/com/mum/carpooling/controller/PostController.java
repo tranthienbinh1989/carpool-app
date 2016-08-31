@@ -41,6 +41,10 @@ public class PostController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
+		if(session==null||session.getAttribute("currentUser")==null){
+			response.sendRedirect("/carpool-app/login");
+			return;
+		}
 		//User CurrentUser = getUser();
 		User CurrentUser = (User)session.getAttribute("currentUser");
 	String Action = request.getParameter("Action");
@@ -60,6 +64,16 @@ public class PostController extends HttpServlet {
 			String PostId = request.getParameter("PostId");
 			if(PostId!=null && !PostId.isEmpty())
 				PostRepository.Like(CurrentUser.getUserid(),Long.parseLong(PostId));
+		}
+		else if(Action.equals("New")){			
+			String afterPostId = request.getParameter("afterPostId");
+			int newPostCount=0;
+			JSONObject postCounts = new JSONObject();
+			if(afterPostId!=null && !afterPostId.isEmpty())
+				newPostCount=PostRepository.New(Long.parseLong(afterPostId));
+			response.setContentType("application/json");
+			postCounts.put("NewComments", newPostCount);
+			response.getWriter().write(postCounts.toJSONString());
 		}
 		else if(Action.equals("Get")){
 			String From = request.getParameter("From");
