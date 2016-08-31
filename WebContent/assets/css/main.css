@@ -153,6 +153,12 @@ span.comments{
     background-color:#DFDFF7;
     border-radius:25px;
 }
+#deletemodal { width:400px !important  }
+.weathermap{
+	overflow-y:auto;
+	height: 550px;
+}
+
 
 .marginer{
 	border: 0;
@@ -160,6 +166,10 @@ span.comments{
 
 .icon-black {
     color: #777777;
+}
+
+.icon-red {
+    color: #FF5555;
 }
 
 .pac-container { z-index: 100000; }

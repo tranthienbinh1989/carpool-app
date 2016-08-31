@@ -75,7 +75,8 @@
   <!-- end nav -->
   <div>
   	<div class="row">
-        <div class="col s12 m6 l5">
+  	
+        <div class="col s12 m6 l5 weathermap">
         <h5 id="city"></h5>
         <table class="striped responsive-table" id="forecastTable">
         <thead>

@@ -15,6 +15,23 @@ $(document).ready(
 					   
 				   }
 				});
+			
+			$("#deletePostBTN").click(
+					 function(){
+						 $.ajax("PostController",{
+							 data:{
+								 "Action":"Delete",
+								 "PostId":$("#deletemodal").attr("deleteid")							 
+							 }
+								}	
+							).done(
+									function(Posts){
+										$("#__"+$("#deletemodal").attr("deleteid")).remove();
+							})
+									
+							.fail(function(){console.log("fail")});
+					 }
+			)
 			 $("#Submit_Post").click(
 					 function(){
 						 var NoError=true;
@@ -25,7 +42,7 @@ $(document).ready(
 							 NoError=false;
 						 }
 						 if(NoError){
-							 var PostType = ($("#postType").is(':checked')) ? 1 : 0;
+							 var PostType = ($("#postType").is(':checked')) ? 0 : 1;
 							 var Post = $("#compose").val();
 							 var departure = $("#departure").val();
 							 var destination = $("#destination").val();
@@ -50,7 +67,9 @@ $(document).ready(
 										function(){
 											$("#error_SelectRole").empty();
 											$("#error_PostText").empty();
-											$('#compose').val("")
+											$('#compose').val("");
+											$("#departure").val("");
+											$("#destination").val("");
 											$('#modal1').closeModal();											
 											GetPost(0,20,false)
 											window.scrollTo(0, 0);
@@ -136,22 +155,12 @@ $(document).ready(
 				 PC.append(aLikes);
 				 PC.append(aComments);
 				 if(UserId==userid){
-					 var DeleteComment = $("<a href='#!' class='secondary-content'><i class='material-icons icon-black Tiny'>delete</i></a>");
+					 var DeleteComment = $("<a href='#!' class='secondary-content'><i class='material-icons icon-red Tiny'>delete</i></a>");
 					 PC.append(DeleteComment)
 					 DeleteComment.click(
 							 function(){
-								 $.ajax("PostController",{
-									 data:{
-										 "Action":"Delete",
-										 "PostId":postid							 
-									 }
-										}	
-									).done(
-											function(Posts){
-												li.remove();
-									})
-											
-									.fail(function(){console.log("fail")});
+								 $("#deletemodal").attr("deleteid",postid)
+								 $("#deletemodal").openModal()
 							 }
 					 );
 				 }
@@ -204,8 +213,8 @@ $(document).ready(
 									function(Posts){
 										var lastC = cmContainer.children().length-1;
 										$("#__c" + PostId).text(parseInt($("#__c" + PostId ).text())+ 1);
-										comTextArea.val("");
 										createComment(fullname,datecreated,comTextArea.val()).insertBefore(cmContainer.children()[lastC]);
+										comTextArea.val("");
 										
 							})
 									
@@ -256,7 +265,7 @@ $(document).ready(
 		                  notification.onclick=function(){
 		                	  GetPost(0,newPostCounts,false);
 		                	  window.scrollTo(0, 0);
-		                	  //this.close();
+		                	  this.close();
 		                	  }
 		          }
 		          else if (Notification.permission !== 'denied') {
@@ -276,7 +285,7 @@ $(document).ready(
 		                  notification.onclick=function(){
 		                	  GetPost(0,newPostCounts,false);
 		                	  window.scrollTo(0, 0);
-		                	  //this.close();
+		                	  this.close();
 		                	  }
 		              }
 		            });

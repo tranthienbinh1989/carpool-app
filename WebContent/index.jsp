@@ -1,12 +1,12 @@
+<%
+if (session == null || session.getAttribute("currentUser")==null)
+	response.sendRedirect("/carpool-app/login");
+%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="Post" uri="/WEB-INF/PostTag.tld" %>
 <!doctype html>
-<%
-if (session == null || session.getAttribute("currentUser")==null)
-	response.sendRedirect("/carpool-app/login");
-%>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -41,7 +41,7 @@ if (session == null || session.getAttribute("currentUser")==null)
   <!-- start nav -->
   <nav class="light-blue lighten-1">
     <div class="nav-wrapper">
-      <a href="${pageContext.request.contextPath}" class="brand-logo">Carpooling</a>
+      <a href="${pageContext.request.contextPath}" class="brand-logo">Carpooling</a>      
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
       	<c:choose>
@@ -51,7 +51,7 @@ if (session == null || session.getAttribute("currentUser")==null)
       		<c:otherwise>
       			<li><a href="logout">Logout</a></li>
         		<li><a href="weathermap">Weather Map</a></li>
-        		<li><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"></a></li>
+        		<li><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"> </a></li>
       		</c:otherwise>
       	</c:choose>
       </ul>
@@ -131,11 +131,21 @@ if (session == null || session.getAttribute("currentUser")==null)
                 </div>
               </div>
             </div>
-  </div>
+          <div id="deletemodal" class="modal">              
+                <div class="row">                 
+                  	 <p class="center-align">Are you sure you want to delete the post?</p>                        
+                </div>
+                    <div class="row center-align">
+                    	<a class="modal-action modal-close waves-effect waves-light btn btn-small" style="margin-left: 5px"><i class="material-icons left">close</i>Close</a>
+                    	<span> </span>	
+                        <a id="deletePostBTN" class="modal-action modal-close waves-effect waves-light btn btn-small red"><i class="material-icons left">delete</i>Delete</a>                    	
+    				</div>
+            </div>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyB2K5mYHqHZmHKg0SIrIkmMxjGyv08APHc&libraries=places"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/post.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+  </div>
 </body>
 </html>
