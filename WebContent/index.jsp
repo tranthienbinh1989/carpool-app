@@ -52,7 +52,7 @@ if (session == null || session.getAttribute("currentUser")==null)
       			<li><a href="logout">Logout</a></li>
         		<li><a href="weathermap">Weather Map</a></li>
         		<li><a href="ridemap">Ride Map</a></li>
-        		<li><div><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"><span style="font-size:10px">${sessionScope.currentUser.getFirstname()}</span></a></div></li>
+        		<li><div><a href="profile"><img src="${pageContext.request.contextPath}/assets/img/avatar.jpg" width="50px" height="50px" alt="" class="circle responsive-img valign profile-image"></a></div></li>
       		</c:otherwise>
       	</c:choose>
       </ul>
