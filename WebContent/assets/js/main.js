@@ -4,6 +4,9 @@
         $('.modal-trigger').leanModal();
         $('#depature').on('focus', geolocate);
         $('#destination').on('focus', geolocate);
+        
+        $('ul.tabs').tabs();
+        
     function initAutocomplete() {
         // Create the autocomplete object, restricting the search to geographical
         // location types.

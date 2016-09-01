@@ -79,9 +79,22 @@ if (session == null || session.getAttribute("currentUser")==null)
           	<p>Carpool-app, your best chance to get or give a good ride</p>
           </div>
           <div id="post-list" class="col s12 m8 l9">
-           <ul class="collection" id="posts">
-           	<Post:PostTag/>
-            </ul>
+		      	<div class="col s12">
+			      <ul class="tabs">
+			        <li class="tab col s3"><a href="#ride" class="active">Ride</a></li>
+			        <li class="tab col s3"><a href="#driver">Driver</a></li>
+			      </ul>
+			    </div>
+			    <div id="ride" class="col s12">
+			    	<ul class="collection" id="posts">
+			           	<Post:PostTag/>
+			        </ul>
+			    </div>
+	   			<div id="driver" class="col s12">
+	   				<ul class="collection" id="posts">
+			           	<Post:PostTag/>
+			        </ul>
+	   			</div>
           </div>
         </div>
          <!-- Compose Email Trigger -->
