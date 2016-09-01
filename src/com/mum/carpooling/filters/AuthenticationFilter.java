@@ -66,7 +66,8 @@ public class AuthenticationFilter implements Filter {
 	}
 	
 	private boolean excludeFromFilter(String path) {
-	      if (path.endsWith(".css") || path.endsWith(".js") || path.endsWith(".png")) {
+	      if (path.endsWith(".css") || path.endsWith(".js") || path.endsWith(".gif") || path.endsWith(".jpg")
+	    		  || path.endsWith(".png") || path.endsWith("register")) {
 	    	  return true; // add more page to exclude here
 	      } else {
 	    	  return false;
