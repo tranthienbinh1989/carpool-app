@@ -46,13 +46,13 @@
                     </div>
                     <div class="row">
                       <div class="input-field col s12">
-                        <input id="password" name="password" type="password" class="validate" pattern="(?=^.{6,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required>
+                        <input id="password" name="password" type="password" class="validate" pattern="(?=^.{6,}$)(?=.*\d)(?=.*[a-z])(?=.*[!@#$%^&*])(?=.*[A-Z])(?!.*\s).*$" required>
                         <label for="password" data-error="Invalid" data-success="">Password</label> 
                       </div>
                     </div>
                     <div class="row">
                       <div class="input-field col s12">
-                        <input id="passwordConfirm" name="passwordConfirm" type="password" class="validate" pattern="(?=^.{6,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required>
+                        <input id="passwordConfirm" name="passwordConfirm" type="password" class="validate" pattern="(?=^.{6,}$)(?=.*\d)(?=.*[a-z])(?=.*[!@#$%^&*])(?=.*[A-Z])(?!.*\s).*$" required>
                         <label for="passwordConfirm" data-error="Invalid" data-success="">Confirm Password</label> 
                       </div>
                     </div>
