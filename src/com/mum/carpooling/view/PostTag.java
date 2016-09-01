@@ -24,20 +24,11 @@ public class PostTag extends SimpleTagSupport {
 		 User CurrentUser =(User) getJspContext().getAttribute("currentUser",PageContext.SESSION_SCOPE);
 		 if(CurrentUser==null)return;
 		 JspWriter out = getJspContext().getOut();
-		 
-		 ArrayList<Post> Posts = PostRepository.GetPosts(CurrentUser.getUserid(),0, 25);
+		 int i=0;
 		 JSONArray Comments = new JSONArray();
+		 while(i<2){
+		 ArrayList<Post> Posts = PostRepository.GetPosts(CurrentUser.getUserid(),0, 25, i);
 		 for(Post post: Posts){
-//			 out.print("<li class='collection-item avatar email-unread selected' id='__"+post.getPostid()+"'>" +
-//              "<i class='material-icons circle green'>android</i>" +
-//              "<span class='post_title'>" + post.getFullname()+ "</span>" + 
-//              "<p id='post_title'>" + post.getPost()+ "</p>" + 
-//              " <div class='secondary-content'>" +
-//               "<a href='j'><span class='likes'>"+ post.getLikes()+"</span><i class='material-icons'>thumb_up</i></a>" +
-//               "<a href='#!'><i class='material-icons'>chat_bubble</i></a>" +
-//              "</div>" +
-//             "</li> ");
-
 					JSONObject Comment = new JSONObject();;
 					Comment.put("PostId",post.getPostid());
 					Comment.put("PostType",post.getPosttype());
@@ -49,10 +40,11 @@ public class PostTag extends SimpleTagSupport {
 					Comment.put("Comments",post.getComments());
 					Comments.add(Comment);
 				}
-		 
+		 i++;
+		 }
 		 out.print("<script> var LoadedPosts; UserId=" + CurrentUser.getUserid()+ "</script>");
 		if(Comments.size()>0)
-			out.print("<script> LoadedPosts="+Comments.toJSONString()+"</script>");
+			out.print("<script> LoadedPosts="+Comments.toJSONString()+"</script>");		
 
 	 }
 }

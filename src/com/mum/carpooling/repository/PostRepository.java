@@ -83,13 +83,17 @@ public class PostRepository {
 		}
 		return true;
 	}
-	public static ArrayList<Post> GetPosts(long UserId,int From, int To){
+	public static ArrayList<Post> GetPosts(long UserId,int From, int To, int PostType){
 		ArrayList<Post> Posts = new ArrayList<Post>();
 		try {
-			PreparedStatement  statement = DBConnection.getConnection().prepareStatement("SELECT posts.postid,posts.post,posts.posttype,posts.userid,likeCount.likes,users.firstname,users.lastname,userLiked.liked,commentCount.comments FROM posts LEFT OUTER JOIN((select postid,count(*) AS likes FROM likes group by postid) AS likeCount) ON likeCount.postid=posts.postid LEFT OUTER JOIN users ON posts.userid = users.userid LEFT OUTER JOIN (SELECT count(*) as liked,userid,postid  FROM likes group by userid,postid having likes.userid=?) as userLiked  on userLiked.postid=posts.postid LEFT OUTER JOIN((select postid,count(*) AS comments FROM comments group by postid) AS commentCount) ON commentCount.postid=posts.postid ORDER BY postid DESC LIMIT ?,?");
+			PreparedStatement  statement = DBConnection.getConnection().prepareStatement("SELECT posts.postid,posts.post,posts.posttype,posts.userid,likeCount.likes,users.firstname,users.lastname,userLiked.liked,commentCount.comments FROM posts LEFT OUTER JOIN((select postid,count(*) AS likes FROM likes group by postid) AS likeCount) ON likeCount.postid=posts.postid LEFT OUTER JOIN users ON posts.userid = users.userid LEFT OUTER JOIN (SELECT count(*) as liked,userid,postid  FROM likes group by userid,postid having likes.userid=?) as userLiked  on userLiked.postid=posts.postid LEFT OUTER JOIN((select postid,count(*) AS comments FROM comments group by postid) AS commentCount) ON commentCount.postid=posts.postid  having posttype like ?  ORDER BY postid DESC LIMIT ?,?;");
 			statement.setLong(1, UserId);
-			statement.setInt(2, From);
-			statement.setInt(3,  To);
+			if(PostType!=2)
+				statement.setLong(2, PostType);
+			else
+				statement.setString(2, "%");
+			statement.setInt(3, From);
+			statement.setInt(4,  To);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				Post post = new Post(rs.getInt("userid"),rs.getString("post"),rs.getInt("posttype"));

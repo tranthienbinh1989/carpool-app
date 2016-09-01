@@ -72,6 +72,7 @@ if (session == null || session.getAttribute("currentUser")==null)
     </div>
   </nav>
   <!-- end nav -->
+  <Post:PostTag/>
   <div>
         <div class="row">
 
@@ -86,13 +87,12 @@ if (session == null || session.getAttribute("currentUser")==null)
 			      </ul>
 			    </div>
 			    <div id="ride" class="col s12">
-			    	<ul class="collection" id="posts">
-			           	<Post:PostTag/>
+			    	<ul class="collection" id="posts1">
 			        </ul>
 			    </div>
 	   			<div id="driver" class="col s12">
-	   				<ul class="collection" id="posts">
-			           	<Post:PostTag/>
+	   				<ul class="collection" id="posts0">
+			           	
 			        </ul>
 	   			</div>
           </div>

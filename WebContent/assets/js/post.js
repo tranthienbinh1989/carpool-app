@@ -7,8 +7,8 @@ $(document).ready(
 			$(window).scroll(function() {
 				   if($(window).scrollTop() + $(window).height() > $(document).height() - 50) {
 					   if(startFetch){
-						   var From = $("#posts").children("li").length;
-						   GetPost(From,From + 10,true);
+						   var From = $("#posts"+(($('#post-list a.active').attr('href')=='#ride')?1:0)).children("li").length;
+						   GetPost(From,From + 10,true,($('#post-list a.active').attr('href')=='#ride')?1:0);
 						   startFetch=false;
 						   setInterval(function(){startFetch=true},5000)
 					   }
@@ -71,7 +71,7 @@ $(document).ready(
 											$("#departure").val("");
 											$("#destination").val("");
 											$('#modal1').closeModal();											
-											GetPost(0,20,false)
+											GetPost(0,20,false,PostType)
 											window.scrollTo(0, 0);
 											})
 								.fail(
@@ -81,26 +81,33 @@ $(document).ready(
 						 }
 					 })
 					
-			function GetPost(From,To,Prepend){
+			function GetPost(From,To,Prepend,PostType){
+				if(PostType=='undefined')
+					PostType=($('#post-list a.active').attr('href')=='#ride')?1:0
 				 $.ajax("PostController",{
 					 data:{
 						 "Action":"Get",
 						 "From":From,
-						 "To":To
+						 "To":To,
+						 "PostType":PostType
 					 }
 						}	
 					).done(
 							function(Posts){
-								if(Posts!="undefined")
+								if(Posts!="undefined"){									
 									for(var i=Posts.length-1;i>=0;i--){
 										if(!$("#__"+Posts[i]["PostId"]).length){
-											if(Prepend==0)
-												$("#posts").prepend(createAPost(Posts[i]["PostId"],Posts[i]["Post"],Posts[i]["Fullname"],Posts[i]["Likes"],Posts[i]["PostType"],Posts[i]["Liked"],Posts[i]["UserId"],Posts[i]["Comments"]));
+											if(PostType==1)
+												$('ul.tabs').tabs('select_tab', 'ride');
 											else
-												$("#posts").append(createAPost(Posts[i]["PostId"],Posts[i]["Post"],Posts[i]["Fullname"],Posts[i]["Likes"],Posts[i]["PostType"],Posts[i]["Liked"],Posts[i]["UserId"],Posts[i]["Comments"]));
-									}
-											
-							}
+												$('ul.tabs').tabs('select_tab', 'driver');
+											if(Prepend==0)
+												$("#posts"+Posts[i]["PostType"]).prepend(createAPost(Posts[i]["PostId"],Posts[i]["Post"],Posts[i]["Fullname"],Posts[i]["Likes"],Posts[i]["PostType"],Posts[i]["Liked"],Posts[i]["UserId"],Posts[i]["Comments"]));											
+												else
+												$("#posts"+Posts[i]["PostType"]).append(createAPost(Posts[i]["PostId"],Posts[i]["Post"],Posts[i]["Fullname"],Posts[i]["Likes"],Posts[i]["PostType"],Posts[i]["Liked"],Posts[i]["UserId"],Posts[i]["Comments"]));											
+										}									
+									}}
+								else{alert("no data")}
 					})							
 					.fail(function(){console.log("fail")});
 			 }
@@ -231,7 +238,7 @@ $(document).ready(
 			 }
 			if(LoadedPosts!=null&&LoadedPosts.length!=null)
 				for(var i=LoadedPosts.length-1;i>=0;i--)
-					$("#posts").prepend(createAPost(LoadedPosts[i]["PostId"],LoadedPosts[i]["Post"],LoadedPosts[i]["Fullname"],LoadedPosts[i]["Likes"],LoadedPosts[i]["PostType"],LoadedPosts[i]["Liked"],LoadedPosts[i]["UserId"],LoadedPosts[i]["Comments"]));
+					$("#posts"+LoadedPosts[i]["PostType"]).prepend(createAPost(LoadedPosts[i]["PostId"],LoadedPosts[i]["Post"],LoadedPosts[i]["Fullname"],LoadedPosts[i]["Likes"],LoadedPosts[i]["PostType"],LoadedPosts[i]["Liked"],LoadedPosts[i]["UserId"],LoadedPosts[i]["Comments"]));
 			
 			
 			
@@ -262,8 +269,10 @@ $(document).ready(
 		                  var notification = new Notification("Carpooling",options);
 		                  setTimeout(notification.close.bind(notification), 4000);
 		                  notification.onclick=function(){
-		                	  GetPost(0,newPostCounts,false);
+		                	  GetPost(0,newPostCounts,false,2);
+		                	  newPostCounts=0;
 		                	  window.scrollTo(0, 0);
+		                	  window.focus();
 		                	  this.close();
 		                	  }
 		          }
@@ -282,32 +291,35 @@ $(document).ready(
 		                var notification = new Notification("Carpooling",options);
 		                setTimeout(notification.close.bind(notification), 4000);
 		                  notification.onclick=function(){
-		                	  GetPost(0,newPostCounts,false);
+		                	  GetPost(0,newPostCounts,false,2);
+		                	  newPostCounts=0;
 		                	  window.scrollTo(0, 0);
+		                	  window.focus();
 		                	  this.close();
 		                	  }
 		              }
 		            });
 		          }
 		        };
-		        var latestPostId=0;
 		        var newPostCounts=0;
-		        function updateLatestPostID(){
-		        	if($("#posts").children("li").length>0){
-		        		var ID = ($($("#posts").children("li")[0])).attr("id");
-		        		latestPostId=parseInt(($($("#posts").children("li")[0])).attr("id").substring(2,($($("#posts").children("li")[0])).attr("id").length));
-		        	}
-		        }
-		        updateLatestPostID();
 		        window.setInterval(function(){
+		        	
+		        	var PT;
+		        	var P0=($("#posts0").children("li").length!=0)?parseInt(($($("#posts0").children("li")[0])).attr("id").substring(2,($($("#posts0").children("li")[0])).attr("id").length)):0
+		        	var P1=($("#posts1").children("li").length!=0)?parseInt(($($("#posts1").children("li")[0])).attr("id").substring(2,($($("#posts1").children("li")[0])).attr("id").length)):0
+		
+		        	if(P0>P1)
+		        		PT=P0;
+		        	else
+		        		PT=P1;
 		        	$.ajax("PostController",{
 						 data:{
 							 "Action":"New",
-							 "afterPostId":($("#posts").children("li").length!=0)?parseInt(($($("#posts").children("li")[0])).attr("id").substring(2,($($("#posts").children("li")[0])).attr("id").length)):0
+							 "afterPostId":PT	 
 						 }
 							}	
 						).done(
-								function(newPosts){															
+								function(newPosts){		
 									if(newPostCounts<newPosts["NewComments"]){
 										newPostCounts=newPosts["NewComments"];
 										notifyMe("There are " + newPostCounts + " new posts, click here to load them." );
@@ -319,30 +331,38 @@ $(document).ready(
 		        function GetNewPostCount(){
 		        	
 		        }
-		 }			
+
+		 }
+		
 )
 
-function GetPost(From,To,Prepend){
-	 $.ajax("PostController",{
-		 data:{
-			 "Action":"Get",
-			 "From":From,
-			 "To":To
-		 }
-			}	
-		).done(
-				function(Posts){
-					if(Posts!="undefined")
-						for(var i=Posts.length-1;i>=0;i--){
-							if(!$("#__"+Posts[i]["PostId"]).length){
-								if(!Prepend)
-									$("#posts").prepend(createAPost(Posts[i]["PostId"],Posts[i]["Post"],Posts[i]["Fullname"],Posts[i]["Likes"],Posts[i]["PostType"],Posts[i]["Liked"],Posts[i]["UserId"],Posts[i]["Comments"]));
-								else
-									$("#posts").append(createAPost(Posts[i]["PostId"],Posts[i]["Post"],Posts[i]["Fullname"],Posts[i]["Likes"],Posts[i]["PostType"],Posts[i]["Liked"],Posts[i]["UserId"],Posts[i]["Comments"]));
-						}
-								
-				}
-		})
-				
-		.fail(function(){console.log("fail")});
- }
+			function GetPost(From,To,Prepend,PostType){
+				if(PostType=='undefined')
+					PostType=($('#post-list a.active').attr('href')=='#ride')?1:0
+				 $.ajax("PostController",{
+					 data:{
+						 "Action":"Get",
+						 "From":From,
+						 "To":To,
+						 "PostType":PostType
+					 }
+						}	
+					).done(
+							function(Posts){
+								if(Posts!="undefined"){									
+									for(var i=Posts.length-1;i>=0;i--){
+										if(!$("#__"+Posts[i]["PostId"]).length){
+											if(PostType==1)
+												$('ul.tabs').tabs('select_tab', 'ride');
+											else
+												$('ul.tabs').tabs('select_tab', 'driver');
+											if(Prepend==0)
+												$("#posts"+Posts[i]["PostType"]).prepend(createAPost(Posts[i]["PostId"],Posts[i]["Post"],Posts[i]["Fullname"],Posts[i]["Likes"],Posts[i]["PostType"],Posts[i]["Liked"],Posts[i]["UserId"],Posts[i]["Comments"]));											
+												else
+												$("#posts"+Posts[i]["PostType"]).append(createAPost(Posts[i]["PostId"],Posts[i]["Post"],Posts[i]["Fullname"],Posts[i]["Likes"],Posts[i]["PostType"],Posts[i]["Liked"],Posts[i]["UserId"],Posts[i]["Comments"]));											
+										}									
+									}}
+								else{alert("no data")}
+					})							
+					.fail(function(){console.log("fail")});
+			 }

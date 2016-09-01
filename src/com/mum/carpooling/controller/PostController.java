@@ -91,8 +91,9 @@ public class PostController extends HttpServlet {
 		else if(Action.equals("Get")){
 			String From = request.getParameter("From");
 			String To = request.getParameter("To");
+			String PostType = request.getParameter("PostType");
 			if(From!=null && !From.isEmpty() && To!=null && !To.isEmpty()){
-				ArrayList<Post> Posts = PostRepository.GetPosts(CurrentUser.getBirthyear(),Integer.parseInt(From), Integer.parseInt(To));
+				ArrayList<Post> Posts = PostRepository.GetPosts(CurrentUser.getUserid(),Integer.parseInt(From), Integer.parseInt(To),Integer.parseInt(PostType));
 				JSONArray Comments = new JSONArray();
 				for(Post post: Posts) {
 					JSONObject Comment = new JSONObject();
